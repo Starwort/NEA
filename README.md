@@ -30,6 +30,7 @@ Toby Collier | 17 | Male | Windows
 id-3575493f-df87-4f25-93fa-870532512225 | 10-15 | *\[anonymous\]* | Windows
 id-d1274b61-aa9e-4300-8efe-ba1d5bca03a8 | 15-20 | *\[anonymous\]* | Windows
 id-d86d8cf5-156e-497d-bdbf-0ebb3a4a3ca8 | 15-20 | *\[anonymous\]* | Windows
+id-4b98d17e-c24e-49c6-a12a-2e95cbeee82a | 15-20 | *\[anonymous\]* | Windows
 
 <!-- TODO: get more stakeholders -->
 
@@ -55,8 +56,18 @@ git commits
 
 ## To-do
 
-- [ ] Clear description of the problem
-- [ ] Description and justification of the features of the problem which are solvable by computational methods
-- [ ] Explanation of why the problem is amenable to a computational solution
-- [x] Identified and described the stakeholders in the solution
-- [ ] Explained how the solution is appropriate to the needs of the stakeholders
+- [ ] Create a clear description of the problem
+- [ ] Describe and justify of the features of the problem which are solvable by computational methods
+- [ ] Explain why the problem is amenable to a computational solution
+- [x] Identify and describe the stakeholders in the solution
+- [ ] Explain how the solution is appropriate to the needs of the stakeholders
+- [ ] Decide on methods of research for each stakeholder
+- [ ] Plan interview questions
+- [ ] Plan survey questions
+- [ ] Decide how I will follow up my research
+- [ ] Identify other existing systems or ideas I can research
+- [ ] Discuss any suitable approaches to a solution
+- [ ] Create a requirements specification
+- [ ] Justify each requirement based on the research evidence
+- [ ] State measurable success criteria for each requirement
+- [ ] Discuss any hardware and software that will be needed
