@@ -32,10 +32,11 @@ Furthermore, there is a medal for completing the solitaire game without cheating
 
 *Stakeholders were given the option to remain anonymous when signing up. This means some data will not be in this table or will be less specific.*
 
-Name | Age | Gender | Operating System(s)
---- | --- | --- | ---
-Toby Collier | 17 | Male | Windows/Linux
-id-05012e5c-1462-4510-9fa3-e7e92b1062a9 | 45-50 | *\[anonymous\]* | Windows
+| Name                                    | Age   | Gender          | Operating System(s) |
+|-----------------------------------------|-------|-----------------|---------------------|
+| Toby Collier                            | 17    | Male            | Windows/Linux       |
+| id-05012e5c-1462-4510-9fa3-e7e92b1062a9 | 45-50 | *\[anonymous\]* | Windows             |
+| id-d1274b61-aa9e-4300-8efe-ba1d5bca03a8 | 15-20 | *\[anonymous\]* | Windows             |
 
 <!-- TODO: get more stakeholders -->
 
