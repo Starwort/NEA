@@ -37,6 +37,8 @@ Furthermore, there is a medal for completing the solitaire game without cheating
 | Toby Collier                            | 17    | Male            | Windows/Linux       |
 | id-05012e5c-1462-4510-9fa3-e7e92b1062a9 | 45-50 | *\[anonymous\]* | Windows             |
 | id-d1274b61-aa9e-4300-8efe-ba1d5bca03a8 | 15-20 | *\[anonymous\]* | Windows             |
+| id-d86d8cf5-156e-497d-bdbf-0ebb3a4a3ca8 | 15-20 | *\[anonymous\]* | Windows             |
+| id-4b98d17e-c24e-49c6-a12a-2e95cbeee82a | 15-20 | *\[anonymous\]* | Windows             |
 
 <!-- TODO: get more stakeholders -->
 
