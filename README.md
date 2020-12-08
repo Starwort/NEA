@@ -44,15 +44,20 @@ Furthermore, there is a medal for completing the solitaire game without cheating
 
 ### How the solution is appropriate to the needs of the stakeholders
 
-The solution will be fully automatic, and will be customisable (allow the solver to cheat, limit its search depth, etc) as well as displaying, as part of a graphical interface, what the computer 'sees' (the app window will include a live board capture complete with the vision engine's decisions)
+The solution will be fully automatic, and will be customisable ([don't] allow the solver to cheat, limit its search depth, etc) as well as displaying, as part of a graphical interface, what the computer 'sees' (the app window will include a live board capture complete with the vision engine's decisions)
 
 ### Objectives
 
-- [ ] The solver must have a graphical configuration interface
-  - [ ] The configuration interface must contain a 'live' display of the vision
+- [ ] Standalone solitaire game
+  - [ ] Detect win
+  - [ ] Detect legal moves
 - [ ] The solver must support configuration:
   - [ ] Maximum search depth (number of moves)
-  - [ ] Allow/disallow/allow only when exhausted cheating
+  - [ ] (Allow/disallow/allow only when exhausted) cheating
+- [ ] The solver should have a vision interface
+  - [ ] Read the board from the game with CV
+- [ ] The vision-solver must have a graphical configuration interface
+  - [ ] The configuration interface must contain a 'live' display of the vision
 
 <!-- TODO: maybe more -->
 
@@ -62,6 +67,9 @@ Previously, my father and I [wrote a similarly-intented solver](https://www.yout
 
 A user by the name Hegemege has also [created a solver for the solitaire](https://github.com/Hegemege/molek-syntez-solitaire-bot), however their solution [uses a heuristic](https://github.com/Hegemege/molek-syntez-solitaire-bot/blob/master/game_state.py#L244-L267) to narrow down its states and mine will use backtracking to perform a more exhaustive search
 
+<!-- TODO: compare other solitaire games -->
+<!-- TODO: research frameworks; pygame, etc -->
+
 ### Commentary
 
 I previously (several months ago) began collecting some sample screen captures, and wrote a small framework ([solver/](./solver)). Additionally, the [common.c](solver_c/common.c), [common.h](solver_c/common.h), and [variadicmacros.h](solver_c/variadicmacros.h) are part of my personal C workspace and are copied here for completeness.
@@ -69,6 +77,13 @@ I previously (several months ago) began collecting some sample screen captures, 
 I have also created a makefile, and copied my formatter configuration here, to make the build process easier.
 
 Full information about the progress I make will be available in [the changelog](./CHANGELOG.md)
+
+## Roadmap
+
+1. Write standalone player
+2. Write solver
+3. Write computer vision
+4. Write visualisation window
 
 ## To-do
 
@@ -87,3 +102,9 @@ Full information about the progress I make will be available in [the changelog](
 - [ ] Justify each requirement based on the research evidence
 - [ ] State measurable success criteria for each requirement
 - [ ] Discuss any hardware and software that will be needed
+
+## Design
+
+<!-- TODO: build mockup image and analyse -->
+<!-- TODO: pseudocode algorithm or flow chart -->
+<!-- TODO: explain data format for solver -->
