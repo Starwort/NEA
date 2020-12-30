@@ -72,3 +72,5 @@ TKDV09878!TKDV09878.TKDV09766!TKDV09766...:
 ```
 
 Test result: 3 success, 1 failure
+
+Post-mortem: Bit field limited to 3 bits due to false assumption that valid inputs may never have stacks beginning on a y greater than 7; 'legitimate' legal states may not, but 'cheated' legal states may (columns 1 and 3 of example 4). Note that columns 2 and 4 of example 4 are illegal states that will still be handled gracefully by the parser, after the fix to `types.h`.
