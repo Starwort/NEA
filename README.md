@@ -108,3 +108,13 @@ Full information about the progress I make will be available in [the changelog](
 <!-- TODO: build mockup image and analyse -->
 <!-- TODO: pseudocode algorithm or flow chart -->
 <!-- TODO: explain data format for solver -->
+
+### Solver data formats
+
+#### Input
+
+##### Board state
+
+The board state passed to the solver is represented as a single string consisting of 6 columns.
+
+Each column consists of a sequence of up to fourteen characters, representing the cards in the column, consisting solely of `T`, `K`, `D`, `V`, `0`, `9`, `8`, `7`, or `6`; terminated by a full stop (`.`) or exclamation mark (`!`), representing whether the top card of the column is cheated (`!`) or not (`.`).
