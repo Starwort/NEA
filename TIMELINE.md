@@ -1,13 +1,13 @@
 # Planned steps
 
-## Release 1 - create standalone
-
-- Create a secondary, standalone implementation of the solitaire that a user can play with
-
-## Release 2 - create solver, finish standalone
+## Release 1 - create solver
 
 - Create the solver
-- Add a 'hint' function to the standalone implementation
+
+## Release 2 - create standalone, integrate solver
+
+- Create a secondary, standalone implementation of the solitaire that a user can play with
+- Use solver as a 'hint' function for the standalone implementation
 
 ## Release 3 - create interface for original
 
