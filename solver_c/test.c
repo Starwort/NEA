@@ -7,10 +7,10 @@ void visualise_board(Board* board) {
             Column* col = board->cols[x];
             if (col->cheated && y == col->count - 1) {
                 printf("!%02d!", col->cards[y]);
-            } else if (y == col->stack_begin) {
-                printf(">%02d<", col->cards[y]);
             } else if (y == col->count) {
                 printf("^%02d^", col->cards[y]);
+            } else if (y == col->stack_begin) {
+                printf(">%02d<", col->cards[y]);
             } else {
                 printf(" %02d ", col->cards[y]);
             }
