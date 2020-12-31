@@ -11,11 +11,17 @@ bool legal_stack(Column* col, uint8 position) {
 }
 
 uint8 stack_begin(Column* col) {
-    for (uint8 y = 0; y < col->count; y++) {
-        if (legal_stack(col, y)) {
-            return y;
-        }
+    if (col->count == 0) {
+        return 0;
     }
+    if (col->cheated) {
+        return col->count - 1;
+    }
+    uint8 y = col->count - 1;
+    uint8 card = col->cards[y];
+    while (col->cards[--y] == ++card && y != 255) {
+    }
+    return y + 1;
 }
 
 bool can_move(Board* board, uint8 from_col, uint8 from_y, uint8 to_col) {
