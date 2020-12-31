@@ -1,4 +1,4 @@
-#include "types.h"
+#include "solver.h"
 
 void get_moves(Board* board, Move* out[]) {
     //
