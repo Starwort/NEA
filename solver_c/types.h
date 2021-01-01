@@ -16,8 +16,9 @@ typedef struct _Board {
 } Board;
 
 typedef struct _Move {
-    uint8 from_x : 3;
+    uint8 from_x : 4;
     uint8 from_y : 4;
     uint8 to_x : 3;
+    uint8 to_y : 4;
     bool is_cheat : 1;
 } Move;
