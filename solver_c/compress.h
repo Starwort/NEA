@@ -1,2 +1,4 @@
 #include "types.h"
-uint16* compress(Board* board);
+
+string compress(Board* board);
+bool compare(Board* board, string compressed);
