@@ -91,3 +91,29 @@ Avg. time per iteration: 29.294546ns
 ```
 
 Test result: Successful; 10,000,000 calls of the function (in the worst case) can run in under half a second; each worst-case call takes approximately 29.3ns on average.
+
+## Test #3: Board compression and comparison
+
+[Commit of test (used to view the test at the time)](https://github.com/Starwort/NEA/commit/8a86fec1f35856f467f279d8ca910350584e66fd)
+
+```output
+starwort@hedwig ~/Documents/NEA master$ dist/test 668790.7V6D87.T87D9K.V0T980.DV6KTK.0DVKT9. TKDV09.876TKD.V09876.TKDV09.876TKD.V09876. TKDV09876.TKDV09876.TKDV09876.TKDV09876... 'TKDV09878!TKDV09878.TKDV09766!TKDV09766...'
+Original:      668790.7V6D87.T87D9K.V0T980.DV6KTK.0DVKT9.
+Compressed:    668790.7V6D87.T87D9K.V0T980.DV6KTK.0DVKT9.
+Identical:     true
+Compare equal: true
+Original:      TKDV09.876TKD.V09876.TKDV09.876TKD.V09876.
+Compressed:    TKDV09.876TKD.V09876.TKDV09.876TKD.V09876.
+Identical:     true
+Compare equal: true
+Original:      TKDV09876.TKDV09876.TKDV09876.TKDV09876...
+Compressed:    TKDV09876.TKDV09876.TKDV09876.TKDV09876...
+Identical:     true
+Compare equal: true
+Original:      TKDV09878!TKDV09878.TKDV09766!TKDV09766...
+Compressed:    TKDV09878!TKDV09878.TKDV09766!TKDV09766...
+Identical:     true
+Compare equal: true
+```
+
+Test result: Successful; Compression is the inverse of parsing, and comparison of an inflated (`Board*`) state and a compressed (`string`/`char*`) state works correctly.
