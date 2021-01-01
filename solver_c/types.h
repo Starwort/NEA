@@ -5,9 +5,9 @@ typedef uint8 Card;
 
 typedef struct _Column {
     Card cards[14];
-    uint8 count : 4;
-    uint8 stack_begin : 4;
-    bool cheated : 1;
+    uint8 count;
+    uint8 stack_begin;
+    bool cheated;
 } Column;
 
 typedef struct _Board {
@@ -16,9 +16,9 @@ typedef struct _Board {
 } Board;
 
 typedef struct _Move {
-    uint8 from_x : 4;
-    uint8 from_y : 4;
-    uint8 to_x : 3;
-    uint8 to_y : 4;
-    bool is_cheat : 1;
+    uint8 from_x;
+    uint8 from_y;
+    uint8 to_x;
+    uint8 to_y;
+    bool is_cheat;
 } Move;
