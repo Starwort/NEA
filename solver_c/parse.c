@@ -9,14 +9,13 @@
  * T, K, D, V, 9, 8, 7, and 6 represent themselves, and 0
  * represents 10
  *
- * The board, and all its columns, need freeing after use.
+ * The board needs freeing after use.
  */
 Board* parse_input(string given_state) {
-    Board* board = malloc(sizeof(Board));
-    board->depth = 0;
+    Board* board = allocate_board();
     int card = 0;
     for (int i = 0; i < 6; i++) {
-        Column* this_column = board->cols[i] = malloc(sizeof(Column));
+        Column* this_column = board->cols[i];
         uint8 current_card;
         uint8 y = 0;
         while ((current_card = given_state[card++]) != '.' && current_card != '!') {
