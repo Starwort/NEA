@@ -1,3 +1,3 @@
 #pragma once
-#include "compress.h"
+#include "hash.h"
 #include "parse.h"

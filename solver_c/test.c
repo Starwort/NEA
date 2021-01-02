@@ -1,6 +1,6 @@
 #include "test.h"
 // This file is used for testing various components
-// Current test: column order invariance
+// Current test: column order invariance (hashing)
 void visualise_board(Board* board) {
     for (int y = 0; y < 14; y++) {
         for (int x = 0; x < 6; x++) {
@@ -20,18 +20,9 @@ void visualise_board(Board* board) {
 }
 
 int main(int argc, string argv[]) {
-    argv += 1;
-    argc -= 1;
-    if (argc % 2 != 0) {
-        println("Need two board states to compare for each test");
-        return 1;
-    }
-    for (int i = 0; i < argc;) {
-        Board* board = parse_input(argv[i++]);
-        string compressed = argv[i++];
-        printfln("Comparing:     %s", compress(board));
-        printfln("To:            %s", compressed);
-        printfln("Compare equal: %s", compare(board, compressed) ? "true" : "false");
+    for (int i = 1; i < argc; i++) {
+        Board* board = parse_input(argv[i]);
+        printfln("%d", hash(board));
     }
     return 0;
 }
