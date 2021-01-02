@@ -155,3 +155,15 @@ es/toy.txt | wc -l
 ```
 
 Test result: Successful; 16 different hashes are generated; one per board state in the sample file (note that `wc` has an off-by-one error due to `samples/toy.txt` not containing a trailing newline)
+
+## Test #7: Hash collision (cheating)
+
+[Commit of test (used to view the test at the time)](https://github.com/Starwort/NEA/commit/4b3894199036135bc13e0ffa85358459d9ae34c8)
+
+```output
+starwort@hedwig ~/Documents/NEA master$ dist/test 668790.7V6D87.T87D9K.V0T980.DV6KTK.0DVKT9.; dist/test "668790.7V6D87.T87D9K.V0T980.DV6KTK.0DVKT9!"
+20388944
+20388944
+```
+
+Test result: Failed; the board states differ by the cheat state of column 5, but the hash is the same
