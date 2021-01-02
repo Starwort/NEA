@@ -131,3 +131,14 @@ starwort@hedwig ~/Documents/NEA master$ bash -c '(read a; while read b; do dist/
 (Author's note: I use [xonsh](https://xon.sh/) so the bash snippet needs to be emulated in bash)
 
 Test result: Successful; All permutations of the board state are accepted as equivalent in comparison
+
+## Test #5: Board state permutation invariance (hashing)
+
+[Commit of test (used to view the test at the time)](https://github.com/Starwort/NEA/commit/4b3894199036135bc13e0ffa85358459d9ae34c8)
+
+```output
+starwort@hedwig ~/Documents/NEA master$ bash -c '(while read b; do dist/test \"$b\"; done) < samples/permutations.txt' | python -c "import sys; print(set(sys.stdin.read().splitlines()))"
+{'2061600474'}
+```
+
+Test result: Successful; All permutations of the board state are accepted as equivalent in hashing (single result over all permutations)
