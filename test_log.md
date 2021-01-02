@@ -117,3 +117,17 @@ Compare equal: true
 ```
 
 Test result: Successful; Compression is the inverse of parsing, and comparison of an inflated (`Board*`) state and a compressed (`string`/`char*`) state works correctly.
+
+## Test #4: Board state permutation invariance
+
+[Commit of test (used to view the test at the time)](https://github.com/Starwort/NEA/commit/c7bc22b7a4cac4e2709f71ed49e2df7cbbedc77b)
+
+Output: [![asciicast](https://asciinema.org/a/2JbOBIMBh1DxGX0zAnPkRYNl3.svg)](https://asciinema.org/a/2JbOBIMBh1DxGX0zAnPkRYNl3)
+
+```output
+starwort@hedwig ~/Documents/NEA master$ bash -c '(read a; while read b; do dist/test \"$a\" \"$b\"; done) < samples/permutations.txt' | grep -B 2 false
+```
+
+(Author's note: I use [xonsh](https://xon.sh/) so the bash snippet needs to be emulated in bash)
+
+Test result: Successful; All permutations of the board state are accepted as equivalent in comparison
