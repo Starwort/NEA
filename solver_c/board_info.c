@@ -27,10 +27,56 @@ uint8 stack_begin(Column* col) {
 bool can_move(Board* board, uint8 from_col, uint8 from_y, uint8 to_col) {
     Column* fcol = board->cols[from_col];
     Column* tcol = board->cols[to_col];
+    if (tcol->cheated) {
+        return false;
+    }
     if (from_y < fcol->count - 1) {
         if (legal_stack(fcol, from_y)) {
-            return (tcol->cards[tcol->count] == fcol->cards[from_y] + 1);
+            return (tcol->cards[tcol->count - 1] == fcol->cards[from_y] + 1);
         }
         return false;
     }
+    return (tcol->cards[tcol->count - 1] == fcol->cards[from_y] + 1);
+}
+
+/* Determine if the board is solved
+ *
+ * The board is solved if all columns are either empty or
+ * contain a full stack starting from the top of the tableau
+ * (col->cards == {14, 13, 12, 11, 10, 9, 8, 7, 6} and
+ * therefore col->count == 9 and col->stack_begin == 0)
+ */
+bool solved(Board* board) {
+    for (int col = 0; col < 6; col++) {
+        if (board->cols[col]->count == 0
+            || (board->cols[col]->count == 9 && board->cols[col]->stack_begin == 0)) {
+            continue;
+        }
+        return false;
+    }
+    return true;
+}
+
+/* Apply move to board.
+ *
+ * Does not check validity of move.
+ */
+void apply_move(Board* board, Move* move) {
+    Column* from_col = board->cols[move->from_x];
+    Column* to_col = board->cols[move->to_x];
+    uint8 n_elements = from_col->count - move->from_y;
+    memcpy(to_col->cards + move->to_y, from_col->cards + move->from_y, n_elements);
+    from_col->count = move->from_y;
+    to_col->count += n_elements;
+}
+
+/* Unapply move to board; opposite of apply_move */
+void unapply_move(Board* board, Move* move) {
+    Column* from_col = board->cols[move->from_x];
+    Column* to_col = board->cols[move->to_x];
+    uint8 n_elements = to_col->count - move->to_y;
+    memcpy(from_col->cards + move->from_y, to_col->cards + move->to_y, n_elements);
+    from_col->count = move->from_y + n_elements;
+    to_col->count = move->to_y;
+    //
 }
