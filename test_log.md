@@ -138,7 +138,7 @@ Test result: Successful; All permutations of the board state are accepted as equ
 
 ```output
 starwort@hedwig ~/Documents/NEA master$ bash -c '(while read b; do dist/test \"$b\"; done) < samples/permutations.txt' | python -c "import sys; print(set(sys.stdin.read().splitlines()))"
-{'2061600474'}
+{'57555068'}
 ```
 
 Test result: Successful; All permutations of the board state are accepted as equivalent in hashing (single result over all permutations)
@@ -148,9 +148,8 @@ Test result: Successful; All permutations of the board state are accepted as equ
 [Commit of test (used to view the test at the time)](https://github.com/Starwort/NEA/commit/4b3894199036135bc13e0ffa85358459d9ae34c8)
 
 ```output
-starwort@hedwig ~/Documents/NEA master$ xargs -a samples/toy.txt dist/test | python -c "import sys; print(_:=set(sys.stdin.read().splitlines()), len(_))"; cat sampl
-es/toy.txt | wc -l
-{'1155736366', '1378151696', '787479018', '607106895', '1877186423', '1227488174', '7849480', '2024826134', '1831146040', '1379782929', '1943525902', '1735416466', '1301909080', '1119044641', '1645370030', '20388944'} 16
+starwort@hedwig ~/Documents/NEA master$ xargs -a samples/toy.txt dist/test | python -c "import sys; print(_:=set(sys.stdin.read().splitlines()), len(_))"; cat samples/toy.txt | wc -l
+{'228303792', '571845447', '1756605383', '1030069549', '328575377', '1811331921', '1590868318', '22301669', '1238129521', '1958393456', '56924340', '1245889', '919853135', '1563027505', '1507860214', '756225619'} 16
 15
 ```
 
@@ -162,8 +161,8 @@ Test result: Successful; 16 different hashes are generated; one per board state 
 
 ```output
 starwort@hedwig ~/Documents/NEA master$ dist/test 668790.7V6D87.T87D9K.V0T980.DV6KTK.0DVKT9.; dist/test "668790.7V6D87.T87D9K.V0T980.DV6KTK.0DVKT9!"
-20388944
-20388944
+228303792
+748997643
 ```
 
-Test result: Failed; the board states differ by the cheat state of column 5, but the hash is the same
+Test result: Successful; the board states differ only by the cheat state of column 5, and the hash is different
