@@ -118,7 +118,7 @@ Compare equal: true
 
 Test result: Successful; Compression is the inverse of parsing, and comparison of an inflated (`Board*`) state and a compressed (`string`/`char*`) state works correctly.
 
-## Test #4: Board state permutation invariance
+## Test #4: Board state permutation invariance (comparison)
 
 [Commit of test (used to view the test at the time)](https://github.com/Starwort/NEA/commit/c7bc22b7a4cac4e2709f71ed49e2df7cbbedc77b)
 
