@@ -142,3 +142,16 @@ starwort@hedwig ~/Documents/NEA master$ bash -c '(while read b; do dist/test \"$
 ```
 
 Test result: Successful; All permutations of the board state are accepted as equivalent in hashing (single result over all permutations)
+
+## Test #6: Hash collision likelihood
+
+[Commit of test (used to view the test at the time)](https://github.com/Starwort/NEA/commit/4b3894199036135bc13e0ffa85358459d9ae34c8)
+
+```output
+starwort@hedwig ~/Documents/NEA master$ xargs -a samples/toy.txt dist/test | python -c "import sys; print(_:=set(sys.stdin.read().splitlines()), len(_))"; cat sampl
+es/toy.txt | wc -l
+{'1155736366', '1378151696', '787479018', '607106895', '1877186423', '1227488174', '7849480', '2024826134', '1831146040', '1379782929', '1943525902', '1735416466', '1301909080', '1119044641', '1645370030', '20388944'} 16
+15
+```
+
+Test result: Successful; 16 different hashes are generated; one per board state in the sample file (note that `wc` has an off-by-one error due to `samples/toy.txt` not containing a trailing newline)
