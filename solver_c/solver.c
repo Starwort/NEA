@@ -43,7 +43,7 @@ int main(int argc, string argv[]) {
     }
     Board* board = parse_input(argv[1]);
 
-    for (int max_depth = 128; max_depth <= 1024; max_depth <<= 1) {
+    for (int max_depth = 64; max_depth <= 1024; max_depth <<= 1) {
         int n_moves = step(board, 0, max_depth);
         if (n_moves == -1) {
             eprintfln("No solution found in %d moves", max_depth);
