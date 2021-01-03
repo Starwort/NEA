@@ -36,6 +36,9 @@ bool can_move(Board* board, uint8 from_col, uint8 from_y, uint8 to_col) {
         }
         return false;
     }
+    if (tcol->count == 0) {
+        return true;
+    }
     return (tcol->cards[tcol->count - 1] == fcol->cards[from_y] + 1);
 }
 
@@ -67,6 +70,7 @@ void apply_move(Board* board, Move* move) {
     uint8 n_elements = from_col->count - move->from_y;
     memcpy(to_col->cards + move->to_y, from_col->cards + move->from_y, n_elements);
     from_col->count = move->from_y;
+    from_col->stack_begin = stack_begin(from_col);
     to_col->count += n_elements;
 }
 
@@ -76,7 +80,7 @@ void unapply_move(Board* board, Move* move) {
     Column* to_col = board->cols[move->to_x];
     uint8 n_elements = to_col->count - move->to_y;
     memcpy(from_col->cards + move->from_y, to_col->cards + move->to_y, n_elements);
+    from_col->stack_begin = from_col->count;
     from_col->count = move->from_y + n_elements;
     to_col->count = move->to_y;
-    //
 }
