@@ -9,8 +9,8 @@ Move* moves[1024];
  * TODO: implement cheating
  */
 int step(Board* board, int depth, int max_moves) {
-    printfln("Depth %d:", depth);
-    visualise_board(board, false);
+    // printfln("Depth %d:", depth);
+    // visualise_board(board, false);
     Move* move = malloc(sizeof(Move));
     if (depth == max_moves) {
         return -1;
