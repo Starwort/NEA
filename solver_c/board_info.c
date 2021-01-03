@@ -30,10 +30,7 @@ bool can_move(Board* board, uint8 from_col, uint8 from_y, uint8 to_col) {
     if (tcol->cheated) {
         return false;
     }
-    if (from_y < fcol->count - 1) {
-        if (legal_stack(fcol, from_y)) {
-            return (tcol->cards[tcol->count - 1] == fcol->cards[from_y] + 1);
-        }
+    if (from_y < fcol->count - 1 && !legal_stack(fcol, from_y)) {
         return false;
     }
     if (tcol->count == 0) {
