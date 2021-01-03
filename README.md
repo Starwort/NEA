@@ -118,3 +118,11 @@ Full information about the progress I make will be available in [the changelog](
 The board state passed to the solver is represented as a single string consisting of 6 columns.
 
 Each column consists of a sequence of up to fourteen characters, representing the cards in the column, consisting solely of `T`, `K`, `D`, `V`, `0`, `9`, `8`, `7`, or `6`; terminated by a full stop (`.`) or exclamation mark (`!`), representing whether the top card of the column is cheated (`!`) or not (`.`).
+
+### Output
+
+The solver outputs a sequence of moves, each formatted as `x y -> new_x new_y`. For example, to move column `1` from card `3` to column `2` at card `5`: `1 3 -> 2 5`.
+
+Additionally, if the search depth is exceeded during a step, it will print a message to standard error stating such: `No solution found in <depth> moves`
+
+The solver attempts to solve with search depths of 64, 128, 256, 512, and 1024; doubling the maximum depth when no solution is found.
