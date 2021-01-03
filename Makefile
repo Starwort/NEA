@@ -6,7 +6,7 @@ CC_FLAGS=-I $(INCLUDE_DIR)
 SOURCE_DIR=solver_c
 OBJECT_DIR=object
 EXE_DIR=dist
-COMMON=board_info common compress hash parse memory
+COMMON=board_info common compress hash parse memory debug
 COMMON_OBJECTS=$(addsuffix .o,$(addprefix ${OBJECT_DIR}/,${COMMON}))
 
 %.o: %.c %.h
