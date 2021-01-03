@@ -30,6 +30,11 @@ bool can_move(Board* board, uint8 from_col, uint8 from_y, uint8 to_col) {
     if (tcol->cheated) {
         return false;
     }
+    if (fcol->stack_begin == 0 && tcol->count == 0) {
+        // never move from the beginning of a stack to an
+        // empty stack
+        return false;
+    }
     if (from_y < fcol->count - 1 && !legal_stack(fcol, from_y)) {
         return false;
     }
