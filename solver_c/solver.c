@@ -9,6 +9,8 @@ Move* moves[1024];
  * TODO: implement cheating
  */
 int step(Board* board, int depth, int max_moves) {
+    printfln("Depth %d:", depth);
+    visualise_board(board, false);
     Move* move = malloc(sizeof(Move));
     if (depth == max_moves) {
         return -1;
@@ -16,6 +18,9 @@ int step(Board* board, int depth, int max_moves) {
     for (move->from_x = 0; move->from_x < 6; move->from_x++) {
         for (move->to_x = 0; move->to_x < 6; move->to_x++) {
             if (move->from_x == move->to_x) {
+                continue;
+            }
+            if (board->cols[move->from_x]->count == 0) {
                 continue;
             }
             move->from_y = board->cols[move->from_x]->stack_begin;
@@ -26,7 +31,7 @@ int step(Board* board, int depth, int max_moves) {
             }
             apply_move(board, move);
             if (solved(board)) {
-                return depth;
+                return depth + 1;
             }
             int found = step(board, depth + 1, max_moves);
             if (found != -1) {
