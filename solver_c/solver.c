@@ -88,7 +88,7 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
             node = create_node(compressed, max_moves - depth);
             last_node->next = node;
         } else {
-            node = moves[board_hash] = create_node(compressed, max_moves - depth);
+            node = cache[board_hash] = create_node(compressed, max_moves - depth);
         }
     }
     free(move);
