@@ -86,7 +86,7 @@ bool _compare(Column* col, string* compressed) {
  * Column order does not matter and so is ignored.
  */
 bool compare(Board* board, string compressed) {
-    bool matched[6] = {0, 0, 0, 0, 0, 0};
+    bool matched[6] = {false, false, false, false, false, false};
     for (int col_compressed = 0; col_compressed < 6; col_compressed++) {
         bool found_match = false;
         for (int col_real = 0; col_real < 6; col_real++) {
