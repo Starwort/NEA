@@ -10,6 +10,8 @@
  * represents 10
  *
  * The board needs freeing after use.
+ *
+ * TODO: avoid segfault for bad input
  */
 Board* parse_input(string given_state) {
     Board* board = allocate_board();
