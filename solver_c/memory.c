@@ -30,3 +30,16 @@ BoardHashTable_LLNode* create_node(string board_state, int depth) {
     node->next = NULL;
     return node;
 }
+
+/* Completely deallocate a BoardHashTable linked list
+ *
+ * Should get a Tail Recursion Optimisation
+ */
+void deallocate_list(BoardHashTable_LLNode* node) {
+    if (node == NULL) {
+        return;
+    }
+    BoardHashTable_LLNode* next = node->next;
+    free(node);
+    deallocate_list(next);
+}
