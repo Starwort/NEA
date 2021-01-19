@@ -1,6 +1,7 @@
 #include "solver.h"
 
 Move* moves[MAX_DEPTH];
+BoardHashTable_LLNode* cache[UINT32_MAX] = {NULL};
 
 /* Search recursively for the next move; backtracking.
  * Return -1 if no valid moves found, non-negative to
@@ -10,6 +11,15 @@ Move* moves[MAX_DEPTH];
  */
 int step(Board* board, int depth, int max_moves, bool allow_cheat) {
     if (depth == max_moves) {
+        return -1;
+    }
+    uint32 board_hash = hash(board);
+    BoardHashTable_LLNode* node = cache[board_hash];
+    BoardHashTable_LLNode* last_node = NULL;
+    while (node != NULL && !equal(board, node->board_state)) {
+        node = (last_node = node)->next;
+    }
+    if (node && (depth + node->unsolvable_in) >= max_moves) {
         return -1;
     }
     Move* move = malloc(sizeof(Move));
@@ -70,6 +80,17 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
             }
         }
     }
+    if (node) {
+        node->unsolvable_in = max_moves - depth;
+    } else {
+        string compressed = compress(board);
+        if (last_node) {
+            node = create_node(compressed, max_moves - depth);
+            last_node->next = node;
+        } else {
+            node = moves[board_hash] = create_node(compressed, max_moves - depth);
+        }
+    }
     free(move);
     return -1;
 }
@@ -112,6 +133,12 @@ int main(int argc, string argv[]) {
         }
     }
     if (solver_allow_cheat) {
+        eprintln("Clearing cache...");
+        uint32 cache_idx = 0;
+        do {
+            eprintf("Clearing %d / %d\r", cache_idx, UINT32_MAX);
+            deallocate_list(cache[cache_idx]);
+        } while (cache_idx++ < UINT32_MAX);
         for (int max_depth = 64; max_depth <= MAX_DEPTH; max_depth <<= 1) {
             int n_moves = step(board, 0, max_depth, true);
             if (n_moves == -1) {

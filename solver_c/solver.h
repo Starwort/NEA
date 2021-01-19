@@ -1,6 +1,8 @@
 #pragma once
 #include "board_info.h"
 #include "compress.h"
+#include "hash.h"
+#include "memory.h"
 #include "parse.h"
 #include "types.h"
 
