@@ -1,6 +1,6 @@
 #include "solver.h"
 
-Move* moves[1024];
+Move* moves[MAX_DEPTH];
 
 /* Search recursively for the next move; backtracking.
  * Return -1 if no valid moves found, non-negative to
@@ -94,7 +94,7 @@ int main(int argc, string argv[]) {
         }
     }
 
-    for (int max_depth = 64; max_depth <= 1024; max_depth <<= 1) {
+    for (int max_depth = 64; max_depth <= MAX_DEPTH; max_depth <<= 1) {
         int n_moves = step(board, 0, max_depth, false);
         if (n_moves == -1) {
             eprintfln("No solution found in %d moves", max_depth);
@@ -112,7 +112,7 @@ int main(int argc, string argv[]) {
         }
     }
     if (solver_allow_cheat) {
-        for (int max_depth = 64; max_depth <= 1024; max_depth <<= 1) {
+        for (int max_depth = 64; max_depth <= MAX_DEPTH; max_depth <<= 1) {
             int n_moves = step(board, 0, max_depth, true);
             if (n_moves == -1) {
                 eprintfln("No solution found in %d moves (Cheating)", max_depth);
