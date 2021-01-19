@@ -11,6 +11,7 @@ Board* allocate_board() {
     }
     return board;
 }
+
 /* Free a board and its columns
  */
 void free_board(Board* board) {
@@ -18,4 +19,14 @@ void free_board(Board* board) {
         free(board->cols[i]);
     }
     free(board);
+}
+
+/* Allocate a BoardHashTable_LLNode
+ */
+BoardHashTable_LLNode* create_node(string board_state, int depth) {
+    BoardHashTable_LLNode* node = malloc(sizeof(BoardHashTable_LLNode));
+    node->board_state = board_state;
+    node->unsolvable_in = depth;
+    node->next = NULL;
+    return node;
 }

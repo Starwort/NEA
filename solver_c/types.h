@@ -22,3 +22,9 @@ typedef struct _Move {
     uint8 to_y;
     bool is_cheat;
 } Move;
+
+typedef struct _BoardHashTable_LLNode {
+    string board_state;
+    int unsolvable_in;
+    struct _BoardHashTable_LLNode* next;
+} BoardHashTable_LLNode;

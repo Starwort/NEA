@@ -1,5 +1,7 @@
 #include "board_info.h"
 
+/* Determine if a stack is legal
+ */
 bool legal_stack(Column* col, uint8 position) {
     uint8 value = col->cards[position];
     for (uint8 y = position; y < col->count; y++) {
@@ -10,37 +12,50 @@ bool legal_stack(Column* col, uint8 position) {
     return true;
 }
 
+/* Determine where the stack begins
+ */
 uint8 stack_begin(Column* col) {
+    // if there are no cards in the column then there is no stack
     if (col->count == 0) {
         return 0;
     }
+    // if there is a cheated card then that is the entire stack
     if (col->cheated) {
         return col->count - 1;
     }
     uint8 y = col->count - 1;
     uint8 card = col->cards[y];
-    while (col->cards[--y] == ++card && y != 255) {
+    while (--y != 255 && col->cards[y] == ++card) {
     }
     return y + 1;
 }
 
-bool can_move(Board* board, uint8 from_col, uint8 from_y, uint8 to_col) {
+/* Check if a given move is legal on a given board
+ */
+bool can_move(Board* board, Move* move) {
+    int from_col = move->from_x;
+    int from_y = move->from_y;
+    int to_col = move->to_x;
     Column* fcol = board->cols[from_col];
     Column* tcol = board->cols[to_col];
+    // cards can never be moved onto a column which contains a Cheated card
     if (tcol->cheated) {
         return false;
     }
+    // never move from the beginning of a stack to an empty stack
     if (fcol->stack_begin == 0 && tcol->count == 0) {
-        // never move from the beginning of a stack to an
-        // empty stack
         return false;
     }
+    // never move an invalid stack - this could actually be omitted as it's
+    // impossible for such a Move* to be generated
     if (from_y < fcol->count - 1 && !legal_stack(fcol, from_y)) {
         return false;
     }
+    // if there are no cards in this column then the move is valid
     if (tcol->count == 0) {
         return true;
     }
+    // otherwise check the top card and compare it to the card being moved
     return (tcol->cards[tcol->count - 1] == fcol->cards[from_y] + 1);
 }
 
@@ -53,8 +68,9 @@ bool can_move(Board* board, uint8 from_col, uint8 from_y, uint8 to_col) {
  */
 bool solved(Board* board) {
     for (int col = 0; col < 6; col++) {
-        if (board->cols[col]->count == 0
-            || (board->cols[col]->count == 9 && board->cols[col]->stack_begin == 0)) {
+        if (board->cols[col]->count == 0  // column is empty
+            || (board->cols[col]->count == 9  // or contains the full stack
+                && board->cols[col]->stack_begin == 0)) {
             continue;
         }
         return false;
@@ -76,7 +92,8 @@ void apply_move(Board* board, Move* move) {
     to_col->count += n_elements;
 }
 
-/* Unapply move to board; opposite of apply_move */
+/* Unapply move to board; opposite of apply_move
+ */
 void unapply_move(Board* board, Move* move) {
     Column* from_col = board->cols[move->from_x];
     Column* to_col = board->cols[move->to_x];

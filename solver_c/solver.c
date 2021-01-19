@@ -26,7 +26,7 @@ int step(Board* board, int depth, int max_moves) {
             move->from_y = board->cols[move->from_x]->stack_begin;
             move->to_y = board->cols[move->to_x]->count;
             moves[depth] = move;
-            if (!can_move(board, move->from_x, move->from_y, move->to_x)) {
+            if (!can_move(board, move)) {
                 continue;
             }
             apply_move(board, move);

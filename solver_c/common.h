@@ -1,5 +1,4 @@
-#ifndef COMMON_LOADED
-#define COMMON_LOADED
+#pragma once
 #include "variadicmacros.h"
 
 #include <stdarg.h>
@@ -57,4 +56,3 @@ int _max(int nargs, ...);
 int _min(int nargs, ...);
 int clamp(int num, int min, int max);
 void* slice(void* arr, int start_idx, int end_idx, size_t elem_size);
-#endif
