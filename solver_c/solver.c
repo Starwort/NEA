@@ -80,10 +80,19 @@ int main(int argc, string argv[]) {
         return 1;
     }
     Board* board = parse_input(argv[1]);
-    struct arguments arguments;
+    bool solver_allow_cheat = false;
 
-    arguments.cheat = false;
-    argp_parse(&argp, argc, argv, 0, 0, &arguments);
+    int opt;
+    while ((opt = getopt(argc, argv, "c")) != -1) {
+        switch (opt) {
+            case 'c':
+                solver_allow_cheat = true;
+                break;
+            default:
+                eprintfln("Usage: %s [-c] <STATE>", argv[0]);
+                exit(EXIT_FAILURE);
+        }
+    }
 
     for (int max_depth = 64; max_depth <= 1024; max_depth <<= 1) {
         int n_moves = step(board, 0, max_depth, false);
@@ -102,7 +111,7 @@ int main(int argc, string argv[]) {
             return 0;
         }
     }
-    if (arguments.cheat) {
+    if (solver_allow_cheat) {
         for (int max_depth = 64; max_depth <= 1024; max_depth <<= 1) {
             int n_moves = step(board, 0, max_depth, true);
             if (n_moves == -1) {
