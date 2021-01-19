@@ -16,7 +16,7 @@ Descending runs can be moved as a single stack, so parts of runs can be moved qu
 
 If a complete stack (T-6) is placed onto an empty column, the entire column will lock.
 
-If there aren't any legal moves available, the player may cheat by placing one card on top of a stack which would normally be illegal. Only one cheated card can be on each stack at any time, however; and cheated cards may not be moved to other illegal positions; therefore the game is still tricky.
+If there aren't any legal moves available, the player may Cheat by placing one card on top of a stack which would normally be illegal. Only one Cheated card can be on each stack at any time, however; and Cheated cards may not be moved to other illegal positions; therefore the game is still tricky.
 
 ### Features of the problem that are amenable to computational methods
 
@@ -26,7 +26,7 @@ The possible solution space for a randomly-generated solitaire is very large - w
 
 The problem is solvable computationally, by using a backtracking exhaustive algorithm; it tries as many moves as it can make, and if it reaches a point with no valid moves, it will go back until it has another valid move to make. It could be considered to be enumerative.
 
-Furthermore, there is a medal for completing the solitaire game without cheating; the medal was designed with the intent of being unobtainable (however there are boards which can be solved without cheating) - a computer is far more likely to find these solutions than a person.
+Furthermore, there is a medal for completing the solitaire game without Cheating; the medal was designed with the intent of being unobtainable (however there are boards which can be solved without Cheating) - a computer is far more likely to find these solutions than a person.
 
 ### Stakeholders
 
@@ -44,7 +44,7 @@ Furthermore, there is a medal for completing the solitaire game without cheating
 
 ### How the solution is appropriate to the needs of the stakeholders
 
-The solution will be fully automatic, and will be customisable ([don't] allow the solver to cheat, limit its search depth, etc) as well as displaying, as part of a graphical interface, what the computer 'sees' (the app window will include a live board capture complete with the vision engine's decisions)
+The solution will be fully automatic, and will be customisable ([don't] allow the solver to Cheat, limit its search depth, etc) as well as displaying, as part of a graphical interface, what the computer 'sees' (the app window will include a live board capture complete with the vision engine's decisions)
 
 ### Objectives
 
@@ -53,7 +53,7 @@ The solution will be fully automatic, and will be customisable ([don't] allow th
   - [ ] Detect legal moves
 - [ ] The solver must support configuration:
   - [ ] Maximum search depth (number of moves)
-  - [ ] (Allow/disallow/allow only when exhausted) cheating
+  - [ ] (Allow/disallow/allow only when exhausted) Cheating
 - [ ] The solver should have a vision interface
   - [ ] Read the board from the game with CV
 - [ ] The vision-solver must have a graphical configuration interface
@@ -92,22 +92,34 @@ Full information about the progress I make will be available in [the changelog](
 - [x] Explain why the problem is amenable to a computational solution
 - [x] Identify and describe the stakeholders in the solution
 - [x] Explain how the solution is appropriate to the needs of the stakeholders
-- [ ] Decide on methods of research for each stakeholder
-- [ ] Plan interview questions
-- [ ] Plan survey questions
-- [ ] Decide how I will follow up my research
 - [x] Identify other existing systems or ideas I can research
 - [x] Discuss any suitable approaches to a solution
 - [x] Create a requirements specification
-- [ ] Justify each requirement based on the research evidence
-- [ ] State measurable success criteria for each requirement
-- [ ] Discuss any hardware and software that will be needed
 
 ## Design
 
 <!-- TODO: build mockup image and analyse -->
-<!-- TODO: pseudocode algorithm or flow chart -->
-<!-- TODO: explain data format for solver -->
+### Solver algorithm overview
+
+```psc
+to solve a given board:
+    see if the board is solved
+        if it is, return no moves
+    for each available move:
+        make the move
+        try to solve the new board
+            if it was solved, return this move and those moves
+        otherwise, undo the move
+    there is no sequence of moves which can solve this board
+```
+
+Moves that are classed as 'available':
+
+- Place a stack beginning with T from a non-empty stack onto an empty stack (it will never move from here)
+- Place a stack beginning with *n* on a stack ending with *n* + 1 (K on T, D on K, V on D, 10 on V, 9 on 10, etc.)
+- *Rules below this point apply only when Cheating is enabled*
+- Move a stack consisting of a single card onto a column which does not contain a Cheated card
+- Move a Cheated card from one column to another when an identical card is available in a valid position (this is really two moves, but is considered as one by the solver)
 
 ### Solver data formats
 
@@ -117,7 +129,7 @@ Full information about the progress I make will be available in [the changelog](
 
 The board state passed to the solver is represented as a single string consisting of 6 columns.
 
-Each column consists of a sequence of up to fourteen characters, representing the cards in the column, consisting solely of `T`, `K`, `D`, `V`, `0`, `9`, `8`, `7`, or `6`; terminated by a full stop (`.`) or exclamation mark (`!`), representing whether the top card of the column is cheated (`!`) or not (`.`).
+Each column consists of a sequence of up to fourteen characters, representing the cards in the column, consisting solely of `T`, `K`, `D`, `V`, `0`, `9`, `8`, `7`, or `6`; terminated by a full stop (`.`) or exclamation mark (`!`), representing whether the top card of the column is Cheated (`!`) or not (`.`).
 
 ### Output
 
