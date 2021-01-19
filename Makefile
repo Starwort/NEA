@@ -1,8 +1,12 @@
+# add some overridable macros for setting additional args
+ADDITIONAL_FLAGS=
+CFLAGS=
+
 INCLUDE_DIR=.
 CC=gcc
 CC_W32=i686-w64-mingw32-gcc
 CC_W64=x86_64-w64-mingw32-gcc
-CC_FLAGS=-I $(INCLUDE_DIR) -O3 -flto
+CC_FLAGS=-I $(INCLUDE_DIR) -O3 -flto $(ADDITIONAL_FLAGS) $(CFLAGS)
 SOURCE_DIR=solver_c
 OBJECT_DIR=object
 EXE_DIR=dist
