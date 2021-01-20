@@ -14,3 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - C libraries from my C experiments folder
   - Stubs for C solver
   - Makefile
+
+## 1.0.0 [2021-01-03]
+
+- Added:
+  - All the C code for the minimum viable product solver
+  - More documentation
