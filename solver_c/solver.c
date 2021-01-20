@@ -135,9 +135,9 @@ int main(int argc, string argv[]) {
     }
     if (solver_allow_cheat) {
         eprintln("Clearing cache...");
-        for (uint32 cache_idx = 0; cache_idx < 0x1000000; cache_idx++) {
-            eprintf("Clearing %d / %d\r", cache_idx, 0xFFFFFF);
-            deallocate_list(cache[cache_idx]);
+        for (uint32 cache_idx = 0; cache_idx < 0x1000000;) {
+            deallocate_list(cache[cache_idx]++);
+            eprintf("Clearing %d / %d\r", cache_idx, 0x1000000);
         }
         for (int max_depth = 64; max_depth <= MAX_DEPTH; max_depth <<= 1) {
             int n_moves = step(board, 0, max_depth, true);
