@@ -21,6 +21,7 @@ typedef struct _Move {
     uint8 to_x;
     uint8 to_y;
     bool is_cheat;
+    bool was_cheat;
 } Move;
 
 typedef struct _BoardHashTable_LLNode {

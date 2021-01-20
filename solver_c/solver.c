@@ -36,6 +36,7 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
             }
             move->from_y = board->cols[move->from_x]->stack_begin;
             move->to_y = board->cols[move->to_x]->count;
+            move->was_cheat = board->cols[move->from_x]->cheated;
             moves[depth] = move;
             if (!can_move(board, move)) {
                 continue;
