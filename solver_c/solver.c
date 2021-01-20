@@ -139,6 +139,7 @@ int main(int argc, string argv[]) {
             deallocate_list(cache[cache_idx]++);
             eprintf("Clearing %d / %d\r", cache_idx, 0x1000000);
         }
+        eprintln("\nDone");
         for (int max_depth = 64; max_depth <= MAX_DEPTH; max_depth <<= 1) {
             int n_moves = step(board, 0, max_depth, true);
             if (n_moves == -1) {
