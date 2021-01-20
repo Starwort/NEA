@@ -136,7 +136,8 @@ int main(int argc, string argv[]) {
     if (solver_allow_cheat) {
         eprintln("Clearing cache...");
         for (uint32 cache_idx = 0; cache_idx < 0x1000000;) {
-            deallocate_list(cache[cache_idx++]);
+            deallocate_list(cache[cache_idx]);
+            cache[cache_idx++] = NULL;
             eprintf("Clearing %d / %d\r", cache_idx, 0x1000000);
         }
         eprintln("\nDone");
