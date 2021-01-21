@@ -8,12 +8,19 @@ ifeq ($(WARN_LEVEL),all)
 else ifeq ($(WARN_LEVEL),error)
     WARN_SETTINGS=-Wall -Wextra -Werror
 endif
+ifdef DEBUG
+    DEBUG_FLAGS=-g -lefence
+    all: solver
+else
+    DEBUG_FLAGS=
+    all: solver solver-win
+endif
 
 INCLUDE_DIR=.
 CC=gcc
 CC_W32=i686-w64-mingw32-gcc
 CC_W64=x86_64-w64-mingw32-gcc
-CC_FLAGS=-I $(INCLUDE_DIR) -O$(OPTIMISE_LEVEL) -flto $(ADDITIONAL_FLAGS) $(CFLAGS) $(WARN_SETTINGS)
+CC_FLAGS=-I $(INCLUDE_DIR) -O$(OPTIMISE_LEVEL) -flto $(ADDITIONAL_FLAGS) $(CFLAGS) $(WARN_SETTINGS) $(DEBUG_FLAGS)
 SOURCE_DIR=solver_c
 OBJECT_DIR=object
 EXE_DIR=dist
@@ -25,7 +32,6 @@ COMMON_OBJECTS_WIN64=$(addsuffix .64.o,$(addprefix ${OBJECT_DIR}/,${COMMON}))
 %.o: %.c %.h
 	$(CC) -c -o $@ $< $(CC_FLAGS)
 
-all: solver solver-win
 solver: ${EXE_DIR}/solver
 solver-win: ${EXE_DIR}/solver.32.exe ${EXE_DIR}/solver.64.exe
 test: ${EXE_DIR}/test
