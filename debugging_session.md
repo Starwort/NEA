@@ -1,4 +1,6 @@
-# Debugging session: 2021-01-20
+# Debugging sessions
+
+## Session: 2021-01-20
 
 - Compiled with:
   - `-O3 -g -lefence`
@@ -19,3 +21,48 @@
   - Something bad is going wrong
   - Somewhere, something is being corrupted
   - The `cards` buffer is being written to with garbage data far into out of bounds, resulting in the obvious visible garbage data (`count` = 80, `stack_begin` = 152)
+
+## Session: 2021-01-21
+
+- Compiled with:
+  - `DEBUG=True`
+- Relevant GDB session log:
+
+  - ```gdb
+    (gdb) set args -c 997VT8.076VD6.879DV6.T00KD8.09T6K8.VTK7DK.
+    (gdb) break solver.c:137
+    Breakpoint 1 at 0x13c3: file solver_c/solver.c, line 138.
+    (gdb) run
+    Starting program: /home/starwort/Documents/NEA/dist/solver -c 997VT8.076VD6.879DV6.T00KD8.09T6K8.VTK7DK.
+    No solution found in 64 moves
+    No solution found in 128 moves
+    No solution found in 256 moves
+    No solution found in 512 moves
+    No solution found in 1024 moves
+    Clearing cache...
+
+    Breakpoint 1, main (argc=<optimised out>, argv=<optimised out>)
+        at solver_c/solver.c:138
+    138             for (uint32 cache_idx = 0; cache_idx < 0x1000000;) {
+    (gdb) break fprintf
+    Breakpoint 2 at 0x5555555552a0: fprintf. (6 locations)
+    (gdb) continue
+    Continuing.
+
+    Breakpoint 2, fprintf (__fmt=0x5555555571e4 "Done\n", 
+        __stream=0x7ffff7fa05c0 <_IO_2_1_stderr_>)
+        at /usr/include/x86_64-linux-gnu/bits/stdio2.h:100
+    100       return __fprintf_chk (__stream, __USE_FORTIFY_LEVEL - 1, __fmt,
+    (gdb) up
+    #1  main (argc=<optimised out>, argv=<optimised out>)
+        at solver_c/solver.c:145
+    145             eprintln("Done");
+    (gdb) up
+    Initial frame selected; you cannot go up.
+    (gdb) print *board
+    value has been optimised out
+    ```
+
+- Conclusion:
+  - Something bad is going wrong
+  - For some reason, `board` is optimised out even before it is done being used
