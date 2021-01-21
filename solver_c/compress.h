@@ -1,4 +1,4 @@
 #include "types.h"
 
-string compress(Board* board);
-bool equal(Board* board, string compressed);
+string compress(const Board* board);
+bool equal(const Board* board, const string compressed);

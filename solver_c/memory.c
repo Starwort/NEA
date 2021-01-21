@@ -23,7 +23,7 @@ void free_board(Board* board) {
 
 /* Allocate a BoardHashTable_LLNode
  */
-BoardHashTable_LLNode* create_node(string board_state, int moves) {
+BoardHashTable_LLNode* create_node(const string board_state, int moves) {
     BoardHashTable_LLNode* node = malloc(sizeof(BoardHashTable_LLNode));
     node->board_state = board_state;
     node->unsolvable_in = moves;

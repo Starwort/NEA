@@ -25,7 +25,7 @@ typedef struct _Move {
 } Move;
 
 typedef struct _BoardHashTable_LLNode {
-    string board_state;
+    const char* board_state;
     int unsolvable_in;
-    struct _BoardHashTable_LLNode* next;
+    const struct _BoardHashTable_LLNode* next;
 } BoardHashTable_LLNode;

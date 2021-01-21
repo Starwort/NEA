@@ -2,5 +2,5 @@
 
 Board* allocate_board();
 void free_board(Board* board);
-BoardHashTable_LLNode* create_node(string board_state, int moves);
+BoardHashTable_LLNode* create_node(const string board_state, int moves);
 void deallocate_list(BoardHashTable_LLNode* node);

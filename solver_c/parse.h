@@ -3,4 +3,4 @@
 #include "memory.h"
 #include "types.h"
 
-Board* parse_input(string given_state);
+Board* parse_input(const string given_state);

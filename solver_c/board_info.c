@@ -2,7 +2,7 @@
 
 /* Determine if a stack is legal
  */
-bool legal_stack(Column* col, uint8 position) {
+bool legal_stack(const Column* col, uint8 position) {
     uint8 value = col->cards[position];
     for (uint8 y = position; y < col->count; y++) {
         if (col->cards[y] != value--) {
@@ -14,7 +14,7 @@ bool legal_stack(Column* col, uint8 position) {
 
 /* Determine where the stack begins
  */
-uint8 stack_begin(Column* col) {
+uint8 stack_begin(const Column* col) {
     // if there are no cards in the column then there is no stack
     if (col->count == 0) {
         return 0;
@@ -33,12 +33,12 @@ uint8 stack_begin(Column* col) {
 /* Check if a given move is legal on a given board
  * Sets move->is_cheat
  */
-bool can_move(Board* board, Move* move) {
-    int from_col = move->from_x;
-    int from_y = move->from_y;
-    int to_col = move->to_x;
-    Column* fcol = board->cols[from_col];
-    Column* tcol = board->cols[to_col];
+bool can_move(const Board* board, Move* move) {
+    const int from_col = move->from_x;
+    const int from_y = move->from_y;
+    const int to_col = move->to_x;
+    const Column* fcol = board->cols[from_col];
+    const Column* tcol = board->cols[to_col];
 
     // cards can never be moved onto a column which contains a Cheated card
     if (tcol->cheated) {
@@ -99,19 +99,19 @@ bool can_move(Board* board, Move* move) {
  *
  * Assume that move is a legal Cheat move
  */
-int column_if_two_moves(Board* board, Move* move) {
-    int from_col = move->from_x;
-    int from_y = move->from_y;
-    int to_col = move->to_x;
-    Column* fcol = board->cols[from_col];
-    Column* tcol = board->cols[to_col];
+int column_if_two_moves(const Board* board, const Move* move) {
+    const int from_col = move->from_x;
+    const int from_y = move->from_y;
+    const int to_col = move->to_x;
+    const Column* fcol = board->cols[from_col];
+    const Column* tcol = board->cols[to_col];
     if (fcol->cheated) {
         // find the column using the algorithm from can_move
         for (int i = 0; i < 6; i++) {
             if (i == from_col || i == to_col) {
                 continue;
             }
-            Column* col = board->cols[i];
+            const Column* col = board->cols[i];
             if (col->stack_begin < col->count - 1
                 && col->cards[col->count - 1] == fcol->cards[fcol->count - 1]) {
                 return i;  // found the two-move column
@@ -128,7 +128,7 @@ int column_if_two_moves(Board* board, Move* move) {
  * (col->cards == {14, 13, 12, 11, 10, 9, 8, 7, 6} and
  * therefore col->count == 9 and col->stack_begin == 0)
  */
-bool solved(Board* board) {
+bool solved(const Board* board) {
     for (int col = 0; col < 6; col++) {
         if (board->cols[col]->count == 0  // column is empty
             || (board->cols[col]->count == 9  // or contains the full stack
@@ -144,10 +144,10 @@ bool solved(Board* board) {
  *
  * Does not check validity of move.
  */
-void apply_move(Board* board, Move* move) {
+void apply_move(Board* board, const Move* move) {
     Column* from_col = board->cols[move->from_x];
     Column* to_col = board->cols[move->to_x];
-    uint8 n_elements = from_col->count - move->from_y;
+    const uint8 n_elements = from_col->count - move->from_y;
     memcpy(to_col->cards + move->to_y, from_col->cards + move->from_y, n_elements);
     if (move->was_cheat) {
         from_col->cheated = false;
@@ -162,7 +162,7 @@ void apply_move(Board* board, Move* move) {
 
 /* Unapply move to board; opposite of apply_move
  */
-void unapply_move(Board* board, Move* move) {
+void unapply_move(Board* board, const Move* move) {
     Column* from_col = board->cols[move->from_x];
     Column* to_col = board->cols[move->to_x];
     uint8 n_elements = to_col->count - move->to_y;

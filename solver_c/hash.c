@@ -46,7 +46,7 @@ uint32 powmod(uint32 y, uint32 x) {
  * the columns is not significant. Each column hash must not be zero, and
  * so will be 1 if the column is empty.
  */
-uint32 hash(Board* board) {
+uint32 hash(const Board* board) {
     uint32 rv = GENERATOR;
     for (uint8 col = 0; col < 6; col++) {
         rv = powmod(rv, hash_column(board->cols[col]));
@@ -65,7 +65,7 @@ uint32 hash(Board* board) {
  * where card_n is equivalent to column->cards[n] and card_N = the last card
  * in the column.
  */
-uint32 hash_column(Column* column) {
+uint32 hash_column(const Column* column) {
     uint32 rv = 1;
     for (uint8 card = 0; card < column->count; card++) {
         rv = ((uint64)rv * (uint64)33 + column->cards[card]) % MODULUS;

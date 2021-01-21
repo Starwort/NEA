@@ -3,12 +3,12 @@
 /* Compress a board state to a board state string
  * Return string needs freeing
  */
-string compress(Board* board) {
+string compress(const Board* board) {
     // board state string is always 42 characters: 36 cards + 6 columns
     string out = malloc(42 * sizeof(char));
     uint8 idx = 0;
     for (int col = 0; col < 6; col++) {
-        Column* column = board->cols[col];
+        const Column* column = board->cols[col];
         for (int card = 0; card < column->count; card++) {
             switch (column->cards[card]) {
                 case 14:
@@ -36,7 +36,7 @@ string compress(Board* board) {
     return out;
 }
 
-bool _compare(Column* col, string* compressed) {
+bool _compare(const Column* col, string* compressed) {
     if ((*compressed)[col->count] != (col->cheated ? '!' : '.')) {
         return false;
     }
@@ -85,7 +85,9 @@ bool _compare(Column* col, string* compressed) {
 /* Compare a board state to a compressed board string.
  * Column order does not matter and so is ignored.
  */
-bool equal(Board* board, string compressed) {
+bool equal(const Board* board, const string compressed) {
+    string consumable = malloc(42);
+    memcpy(consumable, compressed, 42);
     bool matched[6] = {false, false, false, false, false, false};
     for (int col_compressed = 0; col_compressed < 6; col_compressed++) {
         bool found_match = false;

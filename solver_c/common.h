@@ -21,7 +21,7 @@ typedef uint32_t uint32;
 typedef uint64_t uint64;
 // typedef __uint128_t uint128;
 typedef char* string;
-typedef char* str;
+#define str string
 
 #define eprintfln(format, ...) fprintf(stderr, format "\n", __VA_ARGS__)
 #define eprintln(string) fprintf(stderr, string "\n")
