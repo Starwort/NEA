@@ -39,7 +39,7 @@ void deallocate_list(BoardHashTable_LLNode* node) {
     if (node == NULL) {
         return;
     }
-    BoardHashTable_LLNode* next = node->next;
+    BoardHashTable_LLNode* next = (BoardHashTable_LLNode*)node->next;
     free(node);
     deallocate_list(next);
 }
