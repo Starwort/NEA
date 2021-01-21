@@ -16,8 +16,8 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
     uint32 board_hash = hash(board) & 0xFFFFFF;
     BoardHashTable_LLNode* node = cache[board_hash];
     BoardHashTable_LLNode* last_node = NULL;
-    while (node != NULL && !equal(board, node->board_state)) {
-        node = (last_node = node)->next;
+    while (node != NULL && !equal(board, (const string)node->board_state)) {
+        node = (BoardHashTable_LLNode*)(last_node = node)->next;
     }
     if (node && (depth + node->unsolvable_in) >= max_moves) {
         return -1;

@@ -101,10 +101,8 @@ bool can_move(const Board* board, Move* move) {
  */
 int column_if_two_moves(const Board* board, const Move* move) {
     const int from_col = move->from_x;
-    const int from_y = move->from_y;
     const int to_col = move->to_x;
     const Column* fcol = board->cols[from_col];
-    const Column* tcol = board->cols[to_col];
     if (fcol->cheated) {
         // find the column using the algorithm from can_move
         for (int i = 0; i < 6; i++) {
