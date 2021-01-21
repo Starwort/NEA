@@ -95,7 +95,7 @@ bool equal(const Board* board, const string compressed) {
             if (matched[col_real]) {
                 continue;
             }
-            if (_compare(board->cols[col_real], &compressed)) {
+            if (_compare(board->cols[col_real], &consumable)) {
                 matched[col_real] = found_match = true;
                 break;
             }
