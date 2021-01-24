@@ -1,6 +1,6 @@
 #include "solver.h"
 
-Move* moves[MAX_DEPTH];
+Move* moves[MAX_DEPTH + 1];
 BoardHashTable_LLNode* cache[0x1000000] = {NULL};
 
 /* Search recursively for the next move; backtracking.
