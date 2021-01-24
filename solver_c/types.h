@@ -4,7 +4,9 @@
 typedef uint8 Card;
 
 typedef struct _Column {
-    Card cards[14];
+    // largest possible stack:
+    // XXXXXTKDV09876C (15)
+    Card cards[15];
     uint8 count;
     uint8 stack_begin;
     bool cheated;
