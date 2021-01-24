@@ -2,11 +2,12 @@
 ADDITIONAL_FLAGS=
 CFLAGS=
 OPTIMISE_LEVEL=3
-WARN_LEVEL=all
+WARN_LEVEL=error
+WARN_SETTINGS=
 ifeq ($(WARN_LEVEL),all)
-    WARN_SETTINGS=-Wall -Wextra
+    WARN_SETTINGS=-Wall -Wextra -pedantic
 else ifeq ($(WARN_LEVEL),error)
-    WARN_SETTINGS=-Wall -Wextra -Werror
+    WARN_SETTINGS=-Wall -Wextra -Werror -pedantic-errors
 endif
 ifdef DEBUG
     DEBUG_FLAGS=-g -lefence
