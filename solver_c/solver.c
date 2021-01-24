@@ -10,7 +10,7 @@ BoardHashTable_LLNode* cache[0x1000000] = {NULL};
  * Cheating should now be implemented
  */
 int step(Board* board, int depth, int max_moves, bool allow_cheat) {
-    if (depth == max_moves) {
+    if (depth >= max_moves) {
         return -1;
     }
     uint32 board_hash = hash(board) & 0xFFFFFF;
