@@ -26,6 +26,7 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
     Move* cheat_step_one;
     Move* cheat_step_two;
     int two_move_cheat_col;
+    // we want to start with non-Cheats only as these are more likely to work
     for (move->from_x = 0; move->from_x < 6; move->from_x++) {
         for (move->to_x = 0; move->to_x < 6; move->to_x++) {
             if (move->from_x == move->to_x) {
@@ -42,7 +43,37 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                 continue;
             }
             if (move->is_cheat) {
-                if (!allow_cheat) {
+                continue;
+            }
+            apply_move(board, move);
+            if (solved(board)) {
+                return depth + 1;
+            }
+            int found = step(board, depth + 1, max_moves, allow_cheat);
+            if (found != -1) {
+                return found;
+            }
+            unapply_move(board, move);
+        }
+    }
+    if (allow_cheat) {
+        // we couldn't solve it without Cheating here; try Cheating now
+        for (move->from_x = 0; move->from_x < 6; move->from_x++) {
+            for (move->to_x = 0; move->to_x < 6; move->to_x++) {
+                if (move->from_x == move->to_x) {
+                    continue;
+                }
+                if (board->cols[move->from_x]->count == 0) {
+                    continue;
+                }
+                move->from_y = board->cols[move->from_x]->stack_begin;
+                move->to_y = board->cols[move->to_x]->count;
+                move->was_cheat = board->cols[move->from_x]->cheated;
+                moves[depth] = move;
+                if (!can_move(board, move)) {
+                    continue;
+                }
+                if (!move->is_cheat) {
                     continue;
                 }
                 two_move_cheat_col = column_if_two_moves(board, move);
@@ -62,22 +93,20 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                     moves[depth++] = cheat_step_one;
                     moves[depth] = cheat_step_two;
                 }
-            } else {
-                two_move_cheat_col = -1;
-            }
-            apply_move(board, move);
-            if (solved(board)) {
-                return depth + 1;
-            }
-            int found = step(board, depth + 1, max_moves, allow_cheat);
-            if (found != -1) {
-                return found;
-            }
-            unapply_move(board, move);
-            if (move->is_cheat && two_move_cheat_col != -1) {
-                depth--;
-                free(cheat_step_one);
-                free(cheat_step_two);
+                apply_move(board, move);
+                if (solved(board)) {
+                    return depth + 1;
+                }
+                int found = step(board, depth + 1, max_moves, allow_cheat);
+                if (found != -1) {
+                    return found;
+                }
+                unapply_move(board, move);
+                if (two_move_cheat_col != -1) {
+                    depth--;
+                    free(cheat_step_one);
+                    free(cheat_step_two);
+                }
             }
         }
     }
