@@ -30,7 +30,7 @@ COMMON_OBJECTS_LIN=$(addsuffix .o,$(addprefix ${OBJECT_DIR}/,${COMMON}))
 COMMON_OBJECTS_WIN32=$(addsuffix .32.o,$(addprefix ${OBJECT_DIR}/,${COMMON}))
 COMMON_OBJECTS_WIN64=$(addsuffix .64.o,$(addprefix ${OBJECT_DIR}/,${COMMON}))
 
-%.o: %.c %.h
+%.o: %.c %.h solver_c/types.h
 	$(CC) -c -o $@ $< $(CC_FLAGS)
 
 solver: ${EXE_DIR}/solver
