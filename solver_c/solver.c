@@ -1,7 +1,25 @@
 #include "solver.h"
 
-Move* moves[MAX_DEPTH + 1];
+Move** moves;
 BoardHashTable_LLNode* cache[0x1000000] = {NULL};
+int cache_boundary = 16;
+int continue_millis = 500;
+Time timer = {0, 0};
+
+/* Clear the cache. Used between no-Cheat and Cheat passes,
+ * as well as at the end to prevent memory leaks
+ */
+void clear_cache() {
+    eprintln("Clearing cache...");
+    for (uint32 cache_idx = 0; cache_idx < 0x1000000;) {
+        if (cache[cache_idx] != NULL) {
+            deallocate_list(cache[cache_idx]);
+            cache[cache_idx] = NULL;
+        }
+        cache_idx++;
+    }
+    eprintln("Done");
+}
 
 /* Search recursively for the next move; backtracking.
  * Return -1 if no valid moves found, non-negative to
@@ -13,33 +31,34 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
     if (depth >= max_moves) {
         return -1;
     }
-    int remaining = max_moves - depth;
+    int remaining_moves = max_moves - depth;
     uint32 board_hash = hash(board) & 0xFFFFFF;
     BoardHashTable_LLNode* node = cache[board_hash];
     BoardHashTable_LLNode* last_node = NULL;
     while (node != NULL && !equal(board, (const string)node->board_state)) {
         node = (BoardHashTable_LLNode*)(last_node = node)->next;
     }
-    if (node && node->unsolvable_in >= remaining) {
+    if (node && node->unsolvable_in >= remaining_moves) {
         return -1;
     }
     bool free_node = false;
     if (node) {
-        node->unsolvable_in = remaining;
+        node->unsolvable_in = remaining_moves;
     } else {
         free_node = true;
         string compressed = compress(board);
         if (last_node) {
-            last_node->next = create_node(compressed, remaining);
+            last_node->next = create_node(compressed, remaining_moves);
             node = (BoardHashTable_LLNode*)last_node->next;
         } else {
-            node = cache[board_hash] = create_node(compressed, remaining);
+            node = cache[board_hash] = create_node(compressed, remaining_moves);
         }
     }
     Move* move = malloc(sizeof(Move));
     Move* cheat_step_one;
     Move* cheat_step_two;
     int two_move_cheat_col;
+    bool found_solution = false;
     // we want to start with non-Cheats only as these are more likely to work
     for (move->from_x = 0; move->from_x < 6; move->from_x++) {
         for (move->to_x = 0; move->to_x < 6; move->to_x++) {
@@ -49,10 +68,14 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
             if (board->cols[move->from_x]->count == 0) {
                 continue;
             }
+            // If we've run out of time, return; otherwise, keep looking for a shorter
+            // solution
+            if (expired(timer)) {
+                goto finalise;
+            }
             move->from_y = board->cols[move->from_x]->stack_begin;
             move->to_y = board->cols[move->to_x]->count;
             move->was_cheat = board->cols[move->from_x]->cheated;
-            moves[depth] = move;
             if (!can_move(board, move)) {
                 continue;
             }
@@ -61,11 +84,21 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
             }
             apply_move(board, move);
             if (solved(board)) {
+                // Solving the board this move is the best I can do; start a timer and
+                // return
+                moves[depth] = move;
+                // If the timer is not already running, start it
+                start(timer, continue_millis);
                 return depth + 1;
             }
             int found = step(board, depth + 1, max_moves, allow_cheat);
             if (found != -1) {
-                return found;
+                // Found a solution in fewer moves than before
+                moves[depth] = move;
+                max_moves = found;
+                // If the timer is not already running, start it
+                found_solution = true;
+                start(timer, continue_millis);
             }
             unapply_move(board, move);
         }
@@ -80,10 +113,14 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                 if (board->cols[move->from_x]->count == 0) {
                     continue;
                 }
+                // If we've run out of time, return; otherwise, keep looking for a
+                // shorter solution
+                if (expired(timer)) {
+                    goto finalise;
+                }
                 move->from_y = board->cols[move->from_x]->stack_begin;
                 move->to_y = board->cols[move->to_x]->count;
                 move->was_cheat = board->cols[move->from_x]->cheated;
-                moves[depth] = move;
                 if (!can_move(board, move)) {
                     continue;
                 }
@@ -109,11 +146,21 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                 }
                 apply_move(board, move);
                 if (solved(board)) {
+                    // Solving the board this move is the best I can do; start a timer
+                    // and return
+                    moves[depth] = move;
+                    // If the timer is not already running, start it
+                    start(timer, continue_millis);
                     return depth + 1;
                 }
                 int found = step(board, depth + 1, max_moves, allow_cheat);
                 if (found != -1) {
-                    return found;
+                    // Found a solution in fewer moves than before
+                    moves[depth] = move;
+                    max_moves = found;
+                    // If the timer is not already running, start it
+                    found_solution = true;
+                    start(timer, continue_millis);
                 }
                 unapply_move(board, move);
                 if (two_move_cheat_col != -1) {
@@ -124,6 +171,7 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
             }
         }
     }
+finalise:
     // cut the node out if I had to allocate it
     if (free_node) {
         if (last_node) {
@@ -134,6 +182,11 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
         free((void*)node->board_state);
         free(node);
     }
+    // if I found a solution, return the number of moves it took
+    if (found_solution) {
+        return max_moves;
+    }
+    // I didn't, so free the move to avoid a memory leak
     free(move);
     return -1;
 }
@@ -141,29 +194,55 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
 int main(int argc, string argv[]) {
     extern string optarg;
     extern int optind, optopt;
-    if (argc < 2) {
-        println("Need starting board state");
-        return 1;
-    }
     bool solver_allow_cheat = false;
+    uint32 max_depth = 1024;
 
     int opt;
-    while ((opt = getopt(argc, argv, "c")) != -1) {
+    while ((opt = getopt(argc, argv, ":cn:t:m:")) != -1) {
         switch (opt) {
             case 'c':
                 solver_allow_cheat = true;
                 break;
+            case 'n':
+                cache_boundary = atoi(optarg);
+                break;
+            case 't':
+                continue_millis = atoi(optarg);
+                break;
+            case 'm':
+                max_depth = atoi(optarg);
+                break;
             default:
-                eprintfln("Usage: %s [-c] <STATE>", argv[0]);
+                eprintfln(
+                    "Usage: %s [-c] [-n <moves>=16] [-t <milliseconds>=500] [-m <max "
+                    "moves>=1024] <STATE>",
+                    argv[0]);
+                eprintln("  -c                Allow Cheating if no solution is found "
+                         "without Cheating");
+                eprintln("  -n <cache moves>  How many moves may remain when deciding "
+                         "whether to cache or not");
+                eprintln("  -t <milliseconds> How long to continue searching for a "
+                         "shorter solution after one is found");
+                eprintln("  -m <max moves>    How many moves to allow in total. Should "
+                         "be a power of 2 as other numbers will be truncated to the "
+                         "previous power of 2");
                 exit(EXIT_FAILURE);
         }
     }
+    if (!argv[optind]) {
+        println("Need starting board state");
+        exit(EXIT_FAILURE);
+    }
     Board* board = parse_input(argv[optind]);
 
-    for (int max_depth = 64; max_depth <= MAX_DEPTH; max_depth <<= 1) {
-        int n_moves = step(board, 0, max_depth, false);
+    int start_max_depth = min(64, max_depth);
+    moves = malloc(sizeof(Move*) * max_depth);
+
+    for (int step_max_depth = start_max_depth; step_max_depth <= max_depth;
+         step_max_depth <<= 1) {
+        int n_moves = step(board, 0, step_max_depth, false);
         if (n_moves == -1) {
-            eprintfln("No solution found in %d moves", max_depth);
+            eprintfln("No solution found in %d moves", step_max_depth);
         } else {
             for (int i = 0; i < n_moves; i++) {
                 printfln(
@@ -173,25 +252,20 @@ int main(int argc, string argv[]) {
                     moves[i]->is_cheat ? '!' : '-',
                     moves[i]->to_x,
                     moves[i]->to_y);
+                free(moves[i]);
             }
             free_board(board);
+            clear_cache();
             return 0;
         }
     }
     if (solver_allow_cheat) {
-        eprintln("Clearing cache...");
-        for (uint32 cache_idx = 0; cache_idx < 0x1000000;) {
-            if (cache[cache_idx] != NULL) {
-                deallocate_list(cache[cache_idx]);
-                cache[cache_idx] = NULL;
-            }
-            cache_idx++;
-        }
-        eprintln("Done");
-        for (int max_depth = 64; max_depth <= MAX_DEPTH; max_depth <<= 1) {
-            int n_moves = step(board, 0, max_depth, true);
+        clear_cache();
+        for (int step_max_depth = start_max_depth; step_max_depth <= max_depth;
+             max_depth <<= 1) {
+            int n_moves = step(board, 0, step_max_depth, true);
             if (n_moves == -1) {
-                eprintfln("No solution found in %d moves (Cheating)", max_depth);
+                eprintfln("No solution found in %d moves (Cheating)", step_max_depth);
             } else {
                 for (int i = 0; i < n_moves; i++) {
                     printfln(
@@ -201,12 +275,15 @@ int main(int argc, string argv[]) {
                         moves[i]->is_cheat ? '!' : '-',
                         moves[i]->to_x,
                         moves[i]->to_y);
+                    free(moves[i]);
                 }
                 free_board(board);
+                clear_cache();
                 return 0;
             }
         }
     }
     free_board(board);
+    clear_cache();
     return 0;
 }

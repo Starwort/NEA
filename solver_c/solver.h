@@ -4,11 +4,9 @@
 #include "hash.h"
 #include "memory.h"
 #include "parse.h"
+#include "timer.h"
 #include "types.h"
 
 #include <unistd.h>
-
-#define MAX_DEPTH 1024
-#define CACHE_BOUNDARY 16
 
 int step(Board* board, int depth, int max_moves, bool allow_cheat);
