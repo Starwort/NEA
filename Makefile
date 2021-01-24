@@ -59,4 +59,4 @@ ${EXE_DIR}/solver.64.exe: ${OBJECT_DIR}/solver.64.o ${COMMON_OBJECTS_WIN64}
 .PHONY: all clean
 
 clean:
-	rm -f ${OBJECT_DIR}/*.o *~ core $(INCLUDE_DIR)/*~
+	rm -f ${OBJECT_DIR}/*.o *~ core $(INCLUDE_DIR)/*~ ${EXE_DIR}/*
