@@ -97,7 +97,7 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
 }
 
 int main(int argc, string argv[]) {
-    extern char* optarg;
+    extern string optarg;
     extern int optind, optopt;
     if (argc < 2) {
         println("Need starting board state");
