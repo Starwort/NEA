@@ -37,8 +37,9 @@ int _min(int nargs, ...) {
 }
 void* slice(void* arr, int start_idx, int end_idx, size_t elem_size) {
     int new_elem = (end_idx - start_idx);
-    double* new_arr = malloc(elem_size * new_elem);
-    memcpy(new_arr, arr + start_idx, elem_size * new_elem);
+    void* new_arr = malloc(elem_size * new_elem);
+    uint8* arith_arr = (uint8*)arr;
+    memcpy(new_arr, arith_arr + (start_idx * elem_size), elem_size * new_elem);
     free(arr);
     return new_arr;
 }
