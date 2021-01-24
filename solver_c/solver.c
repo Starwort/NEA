@@ -195,7 +195,7 @@ int main(int argc, string argv[]) {
     extern string optarg;
     extern int optind, optopt;
     bool solver_allow_cheat = false;
-    uint32 max_depth = 1024;
+    int max_depth = 1024;
 
     int opt;
     while ((opt = getopt(argc, argv, ":cn:t:m:")) != -1) {
