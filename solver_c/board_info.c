@@ -152,6 +152,7 @@ void apply_move(Board* board, const Move* move) {
     }
     if (move->is_cheat) {
         to_col->cheated = true;
+        to_col->stack_begin = to_col->count;
     }
     from_col->count = move->from_y;
     from_col->stack_begin = stack_begin(from_col);
@@ -165,13 +166,14 @@ void unapply_move(Board* board, const Move* move) {
     Column* to_col = board->cols[move->to_x];
     uint8 n_elements = to_col->count - move->to_y;
     memcpy(from_col->cards + move->from_y, to_col->cards + move->to_y, n_elements);
+    from_col->stack_begin = from_col->count;
+    from_col->count = move->from_y + n_elements;
+    to_col->count = move->to_y;
     if (move->was_cheat) {
         from_col->cheated = true;
     }
     if (move->is_cheat) {
         to_col->cheated = false;
+        to_col->stack_begin = stack_begin(to_col);
     }
-    from_col->stack_begin = from_col->count;
-    from_col->count = move->from_y + n_elements;
-    to_col->count = move->to_y;
 }
