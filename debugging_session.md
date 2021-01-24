@@ -66,3 +66,19 @@
 - Conclusion:
   - Something bad is going wrong
   - For some reason, `board` is optimised out even before it is done being used
+
+- Compiled with:
+  - `DEBUG=True`
+- Relevant GDB session log:
+
+  - ```gdb
+    (gdb) print *board
+    $1 = {cols = {0x55555d55c2e0, 0x55555d55c300, 0x55555d55c320, 
+        0x55555d55c340, 0x55555d55c360, 0x55555d55c380}, depth = 0}
+    (gdb) print *board->cols[0]
+    $2 = {cards = "\375\063\320\t\t\a\v\016\b\000\000\000\000", count = 9 '\t', 
+      stack_begin = 8 '\b', cheated = false}
+    ```
+
+- Conclusion:
+  - Somehow, the garbage data `253, 51, 208` is being written to the beginning of the array of cards
