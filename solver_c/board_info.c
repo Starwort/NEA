@@ -67,6 +67,11 @@ bool can_move(const Board* board, Move* move) {
         return true;
     }
 
+    if (from_y < fcol->count - 1) {
+        // moving a stack; must not Cheat
+        return false;
+    }
+
     // if we reach here then the attempted move Cheats
     move->is_cheat = true;
     if (fcol->cheated) {
