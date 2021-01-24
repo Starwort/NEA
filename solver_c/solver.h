@@ -9,5 +9,6 @@
 #include <unistd.h>
 
 #define MAX_DEPTH 1024
+#define CACHE_BOUNDARY 32
 
 int step(Board* board, int depth, int max_moves, bool allow_cheat);

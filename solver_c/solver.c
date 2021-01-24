@@ -81,15 +81,17 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
             }
         }
     }
+    int remaining = max_moves - depth;
     if (node) {
-        node->unsolvable_in = max_moves - depth;
+        node->unsolvable_in = remaining;
     } else {
-        string compressed = compress(board);
-        if (last_node) {
-            node = create_node(compressed, max_moves - depth);
-            last_node->next = node;
-        } else {
-            node = cache[board_hash] = create_node(compressed, max_moves - depth);
+        if (remaining < CACHE_BOUNDARY) {
+            string compressed = compress(board);
+            if (last_node) {
+                last_node->next = create_node(compressed, remaining);
+            } else {
+                cache[board_hash] = create_node(compressed, remaining);
+            }
         }
     }
     free(move);
