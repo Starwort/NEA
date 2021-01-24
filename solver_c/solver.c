@@ -30,7 +30,8 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
         free_node = true;
         string compressed = compress(board);
         if (last_node) {
-            node = last_node->next = create_node(compressed, remaining);
+            last_node->next = create_node(compressed, remaining);
+            node = (BoardHashTable_LLNode*)last_node->next;
         } else {
             node = cache[board_hash] = create_node(compressed, remaining);
         }
@@ -130,7 +131,7 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
         } else {
             cache[board_hash] = NULL;
         }
-        free(node->board_state);
+        free((void*)node->board_state);
         free(node);
     }
     free(move);
