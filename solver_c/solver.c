@@ -134,6 +134,7 @@ int main(int argc, string argv[]) {
                     moves[i]->to_x,
                     moves[i]->to_y);
             }
+            free_board(board);
             return 0;
         }
     }
@@ -161,9 +162,11 @@ int main(int argc, string argv[]) {
                         moves[i]->to_x,
                         moves[i]->to_y);
                 }
+                free_board(board);
                 return 0;
             }
         }
     }
+    free_board(board);
     return 0;
 }
