@@ -4,6 +4,7 @@ Move** moves;
 BoardHashTable_LLNode* cache[0x1000000] = {NULL};
 int cache_boundary = 16;
 int continue_millis = 500;
+int max_depth = 1024;
 Time timer = {0, 0};
 
 /* Clear the cache. Used between no-Cheat and Cheat passes,
@@ -19,6 +20,27 @@ void clear_cache() {
         cache_idx++;
     }
     eprintln("Done");
+}
+
+/* Free moves[idx] if required, and return whether moves[idx] was freed */
+bool free_if_required(int idx) {
+    if (moves[idx] != NULL) {
+        free(moves[idx]);
+        return true;
+    }
+    return false;
+}
+
+/* Free all moves from idx onwards
+ */
+void free_moves_from(int idx) {
+    // Loop all elements from idx to the end
+    for (int i = idx; i < max_depth; i++) {
+        if (!free_if_required(i)) {
+            // Return if moves[i] is NULL as all other moves will be NULL
+            return;
+        }
+    }
 }
 
 /* Search recursively for the next move; backtracking.
@@ -55,10 +77,11 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
         }
     }
     Move* move = malloc(sizeof(Move));
-    Move* cheat_step_one;
-    Move* cheat_step_two;
+    Move* cheat_step_one = malloc(sizeof(Move));
+    Move* cheat_step_two = malloc(sizeof(Move));
     int two_move_cheat_col;
     bool found_solution = false;
+    bool solution_is_double_cheat = false;
     // we want to start with non-Cheats only as these are more likely to work
     for (move->from_x = 0; move->from_x < 6; move->from_x++) {
         for (move->to_x = 0; move->to_x < 6; move->to_x++) {
@@ -86,14 +109,17 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
             if (solved(board)) {
                 // Solving the board this move is the best I can do; start a timer and
                 // return
+                free_moves_from(depth);
                 moves[depth] = move;
                 // If the timer is not already running, start it
                 start(timer, continue_millis);
-                return depth + 1;
+                max_moves = depth + 1;
+                goto finalise;
             }
             int found = step(board, depth + 1, max_moves, allow_cheat);
             if (found != -1) {
                 // Found a solution in fewer moves than before
+                free_if_required(depth);
                 moves[depth] = move;
                 max_moves = found;
                 // If the timer is not already running, start it
@@ -128,51 +154,72 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                     continue;
                 }
                 two_move_cheat_col = column_if_two_moves(board, move);
-                if (two_move_cheat_col != -1) {
-                    cheat_step_one = malloc(sizeof(Move));
-                    cheat_step_two = malloc(sizeof(Move));
-                    cheat_step_one->from_x = two_move_cheat_col;
-                    cheat_step_one->from_y = board->cols[two_move_cheat_col]->count - 1;
+                const int two_move_col = two_move_cheat_col;
+                const bool is_two_move = two_move_col != -1;
+                if (is_two_move) {
+                    // Set up the two steps using the data from move and two_move_col
+                    cheat_step_one->from_x = two_move_col;
+                    cheat_step_one->from_y = board->cols[two_move_col]->count - 1;
                     cheat_step_one->to_x = move->to_x;
                     cheat_step_one->to_y = move->to_y;
                     cheat_step_one->is_cheat = true;
                     cheat_step_two->from_x = move->from_x;
                     cheat_step_two->from_y = move->from_y;
-                    cheat_step_two->to_x = two_move_cheat_col;
-                    cheat_step_two->to_y = board->cols[two_move_cheat_col]->count - 1;
+                    cheat_step_two->to_x = two_move_col;
+                    cheat_step_two->to_y = board->cols[two_move_col]->count - 1;
                     cheat_step_two->is_cheat = false;
-                    moves[depth++] = cheat_step_one;
-                    moves[depth] = cheat_step_two;
+
+                    // Remember that this is a two-step Cheat in order to
+                    // finalise correctly
+                    depth++;
+                    solution_is_double_cheat = true;
                 }
                 apply_move(board, move);
                 if (solved(board)) {
                     // Solving the board this move is the best I can do; start a timer
                     // and return
-                    moves[depth] = move;
+                    free_moves_from(depth);
+                    if (is_two_move) {
+                        free_if_required(depth - 1);
+                        moves[depth - 1] = cheat_step_one;
+                        moves[depth] = cheat_step_two;
+                    } else {
+                        moves[depth] = move;
+                    }
                     // If the timer is not already running, start it
                     start(timer, continue_millis);
-                    return depth + 1;
+                    max_moves = depth + 1;
+                    goto finalise;
                 }
                 int found = step(board, depth + 1, max_moves, allow_cheat);
                 if (found != -1) {
                     // Found a solution in fewer moves than before
-                    moves[depth] = move;
+                    free_if_required(depth);
+                    if (is_two_move) {
+                        free_if_required(depth - 1);
+                        moves[depth - 1] = cheat_step_one;
+                        moves[depth] = cheat_step_two;
+                    } else {
+                        moves[depth] = move;
+                        // Found a solution better than any found double-Cheat
+                        // so remember that this ISN'T a double-Cheat
+                        solution_is_double_cheat = false;
+                    }
                     max_moves = found;
                     // If the timer is not already running, start it
                     found_solution = true;
                     start(timer, continue_millis);
                 }
                 unapply_move(board, move);
-                if (two_move_cheat_col != -1) {
+                if (is_two_move) {
+                    // Decrement depth to return to the correct place
                     depth--;
-                    free(cheat_step_one);
-                    free(cheat_step_two);
                 }
             }
         }
     }
 finalise:
-    // cut the node out if I had to allocate it
+    // Cut the node out if I had to allocate it
     if (free_node) {
         if (last_node) {
             last_node->next = node->next;
@@ -182,12 +229,22 @@ finalise:
         free((void*)node->board_state);
         free(node);
     }
-    // if I found a solution, return the number of moves it took
+    // If I found a solution, return the number of moves it took
     if (found_solution) {
+        // Free either cheat_step_* if the solution uses a normal move, or move if the
+        // solution uses a double Cheat
+        if (!solution_is_double_cheat) {
+            free(cheat_step_one);
+            free(cheat_step_two);
+        } else {
+            free(move);
+        }
         return max_moves;
     }
     // I didn't, so free the move to avoid a memory leak
     free(move);
+    free(cheat_step_one);
+    free(cheat_step_two);
     return -1;
 }
 
@@ -195,7 +252,6 @@ int main(int argc, string argv[]) {
     extern string optarg;
     extern int optind, optopt;
     bool solver_allow_cheat = false;
-    int max_depth = 1024;
 
     int opt;
     while ((opt = getopt(argc, argv, ":cn:t:m:")) != -1) {
@@ -236,7 +292,7 @@ int main(int argc, string argv[]) {
     Board* board = parse_input(argv[optind]);
 
     int start_max_depth = min(64, max_depth);
-    moves = malloc(sizeof(Move*) * max_depth);
+    moves = calloc(max_depth, sizeof(Move*));
 
     for (int step_max_depth = start_max_depth; step_max_depth <= max_depth;
          step_max_depth <<= 1) {

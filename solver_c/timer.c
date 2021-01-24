@@ -8,6 +8,7 @@ Time make_timer(int extra_milliseconds) {
     now.tv_usec += 1000 * extra_milliseconds;
     now.tv_sec += now.tv_usec / 1000000;
     now.tv_usec %= 1000000;
+    return now;
 }
 
 /* Check if timer has expired
