@@ -13,14 +13,27 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
     if (depth >= max_moves) {
         return -1;
     }
+    int remaining = max_moves - depth;
     uint32 board_hash = hash(board) & 0xFFFFFF;
     BoardHashTable_LLNode* node = cache[board_hash];
     BoardHashTable_LLNode* last_node = NULL;
     while (node != NULL && !equal(board, (const string)node->board_state)) {
         node = (BoardHashTable_LLNode*)(last_node = node)->next;
     }
-    if (node && (depth + node->unsolvable_in) >= max_moves) {
+    if (node && node->unsolvable_in >= remaining) {
         return -1;
+    }
+    bool free_node = false;
+    if (node) {
+        node->unsolvable_in = remaining;
+    } else {
+        free_node = true;
+        string compressed = compress(board);
+        if (last_node) {
+            node = last_node->next = create_node(compressed, remaining);
+        } else {
+            node = cache[board_hash] = create_node(compressed, remaining);
+        }
     }
     Move* move = malloc(sizeof(Move));
     Move* cheat_step_one;
@@ -110,18 +123,15 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
             }
         }
     }
-    int remaining = max_moves - depth;
-    if (node) {
-        node->unsolvable_in = remaining;
-    } else {
-        if (remaining < CACHE_BOUNDARY) {
-            string compressed = compress(board);
-            if (last_node) {
-                last_node->next = create_node(compressed, remaining);
-            } else {
-                cache[board_hash] = create_node(compressed, remaining);
-            }
+    // cut the node out if I had to allocate it
+    if (free_node) {
+        if (last_node) {
+            last_node->next = node->next;
+        } else {
+            cache[board_hash] = NULL;
         }
+        free(node->board_state);
+        free(node);
     }
     free(move);
     return -1;
