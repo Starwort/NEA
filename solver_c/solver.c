@@ -97,11 +97,12 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
 }
 
 int main(int argc, string argv[]) {
+    extern char* optarg;
+    extern int optind, optopt;
     if (argc < 2) {
         println("Need starting board state");
         return 1;
     }
-    Board* board = parse_input(argv[1]);
     bool solver_allow_cheat = false;
 
     int opt;
@@ -115,6 +116,7 @@ int main(int argc, string argv[]) {
                 exit(EXIT_FAILURE);
         }
     }
+    Board* board = parse_input(argv[optind]);
 
     for (int max_depth = 64; max_depth <= MAX_DEPTH; max_depth <<= 1) {
         int n_moves = step(board, 0, max_depth, false);
