@@ -6,6 +6,9 @@
 #include "parse.h"
 #include "timer.h"
 #include "types.h"
+#ifdef DEBUG
+    #include "debug.h"
+#endif
 
 #include <unistd.h>
 

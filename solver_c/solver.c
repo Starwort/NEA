@@ -50,6 +50,9 @@ void free_moves_from(int idx) {
  * Cheating should now be implemented
  */
 int step(Board* board, int depth, int max_moves, bool allow_cheat) {
+#ifdef DEBUG
+    validate_board(board);
+#endif
     if (depth >= max_moves) {
         return -1;
     }

@@ -17,7 +17,7 @@ else ifeq ($(DEBUG_METHOD),efence)
     DEBUG_LIB_FLAG=-lefence
 endif
 ifdef DEBUG
-    DEBUG_FLAGS=-g $(DEBUG_LIB_FLAG)
+    DEBUG_FLAGS=-g $(DEBUG_LIB_FLAG) -D DEBUG
     all: solver
 else
     DEBUG_FLAGS=
@@ -33,6 +33,9 @@ SOURCE_DIR=solver_c
 OBJECT_DIR=object
 EXE_DIR=dist
 COMMON=board_info common compress hash parse memory timer
+ifdef DEBUG
+    COMMON += debug
+endif
 COMMON_OBJECTS_LIN=$(addsuffix .o,$(addprefix ${OBJECT_DIR}/,${COMMON}))
 COMMON_OBJECTS_WIN32=$(addsuffix .32.o,$(addprefix ${OBJECT_DIR}/,${COMMON}))
 COMMON_OBJECTS_WIN64=$(addsuffix .64.o,$(addprefix ${OBJECT_DIR}/,${COMMON}))
