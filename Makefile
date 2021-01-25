@@ -9,8 +9,15 @@ ifeq ($(WARN_LEVEL),all)
 else ifeq ($(WARN_LEVEL),error)
     WARN_SETTINGS=-Wall -Wextra -Werror -pedantic-errors
 endif
+DEBUG_METHOD=asan
+DEBUG_LIB_FLAG=
+ifeq ($(DEBUG_METHOD),asan)
+    DEBUG_LIB_FLAG=-fsanitize=address
+else ifeq ($(DEBUG_METHOD),efence)
+    DEBUG_LIB_FLAG=-lefence
+endif
 ifdef DEBUG
-    DEBUG_FLAGS=-g -lefence -fsanitize=address
+    DEBUG_FLAGS=-g $(DEBUG_LIB_FLAG)
     all: solver
 else
     DEBUG_FLAGS=
