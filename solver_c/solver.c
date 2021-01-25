@@ -111,6 +111,7 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
             if (solved(board)) {
                 // Solving the board this move is the best I can do; start a timer and
                 // return
+                found_solution = true;
                 free_moves_from(depth);
                 moves[depth] = move;
                 // If the timer is not already running, start it
@@ -121,11 +122,11 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
             int found = step(board, depth + 1, max_moves, allow_cheat);
             if (found != -1) {
                 // Found a solution in fewer moves than before
+                found_solution = true;
                 free_if_required(depth);
                 moves[depth] = move;
                 max_moves = found;
                 // If the timer is not already running, start it
-                found_solution = true;
                 start(timer, continue_millis);
             }
             unapply_move(board, move);
@@ -180,6 +181,7 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                 if (solved(board)) {
                     // Solving the board this move is the best I can do; start a timer
                     // and return
+                    found_solution = true;
                     free_moves_from(depth);
                     if (is_two_move) {
                         free_if_required(depth - 1);
@@ -196,6 +198,7 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                 int found = step(board, depth + 1, max_moves, allow_cheat);
                 if (found != -1) {
                     // Found a solution in fewer moves than before
+                    found_solution = true;
                     free_if_required(depth);
                     if (is_two_move) {
                         free_if_required(depth - 1);
@@ -209,7 +212,6 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                     }
                     max_moves = found;
                     // If the timer is not already running, start it
-                    found_solution = true;
                     start(timer, continue_millis);
                 }
                 unapply_move(board, move);
