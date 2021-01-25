@@ -83,7 +83,6 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
     Move* cheat_step_two = malloc(sizeof(Move));
     int two_move_cheat_col;
     bool found_solution = false;
-    bool solution_is_double_cheat = false;
     // we want to start with non-Cheats only as these are more likely to work
     for (move->from_x = 0; move->from_x < 6; move->from_x++) {
         for (move->to_x = 0; move->to_x < 6; move->to_x++) {
@@ -176,7 +175,6 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                     // Remember that this is a two-step Cheat in order to
                     // finalise correctly
                     depth++;
-                    solution_is_double_cheat = true;
                 }
                 apply_move(board, move);
                 if (solved(board)) {
@@ -210,7 +208,6 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                         moves[depth] = copy_move(move);
                         // Found a solution better than any found double-Cheat
                         // so remember that this ISN'T a double-Cheat
-                        solution_is_double_cheat = false;
                     }
                     max_moves = found;
                     // If the timer is not already running, start it
