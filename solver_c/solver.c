@@ -63,6 +63,8 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
     if (node && node->unsolvable_in >= remaining_moves) {
         return -1;
     }
+    // Add the node to the cache unconditionally
+    // This prevents the solver from entering loops
     bool free_node = false;
     if (node) {
         node->unsolvable_in = remaining_moves;
@@ -219,8 +221,9 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
         }
     }
 finalise:
-    // Cut the node out if I had to allocate it
-    if (free_node) {
+    // Cut the node out if I had to allocate it and we're not within the minimum cache
+    // boundary
+    if (free_node && remaining_moves > cache_boundary) {
         if (last_node) {
             last_node->next = node->next;
         } else {
