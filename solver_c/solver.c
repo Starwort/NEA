@@ -50,9 +50,6 @@ void free_moves_from(int idx) {
  * Cheating should now be implemented
  */
 int step(Board* board, int depth, int max_moves, bool allow_cheat) {
-#ifdef DEBUG
-    validate_board(board);
-#endif
     if (depth >= max_moves) {
         return -1;
     }
@@ -111,15 +108,12 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                 continue;
             }
             apply_move(board, move);
-#ifdef DEBUG
-            validate_board(board);
-#endif
             if (solved(board)) {
                 // Solving the board this move is the best I can do; start a timer and
                 // return
                 found_solution = true;
                 free_moves_from(depth);
-                moves[depth] = move;
+                moves[depth] = copy_move(move);
                 // If the timer is not already running, start it
                 start(timer, continue_millis);
                 max_moves = depth + 1;
@@ -131,18 +125,12 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                 // Found a solution in fewer moves than before
                 found_solution = true;
                 free_if_required(depth);
-                moves[depth] = move;
+                moves[depth] = copy_move(move);
                 max_moves = found;
                 // If the timer is not already running, start it
                 start(timer, continue_millis);
             }
-#ifdef DEBUG
-            validate_board(board);
-#endif
             unapply_move(board, move);
-#ifdef DEBUG
-            validate_board(board);
-#endif
         }
     }
     if (allow_cheat) {
@@ -190,13 +178,7 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                     depth++;
                     solution_is_double_cheat = true;
                 }
-#ifdef DEBUG
-                validate_board(board);
-#endif
                 apply_move(board, move);
-#ifdef DEBUG
-                validate_board(board);
-#endif
                 if (solved(board)) {
                     // Solving the board this move is the best I can do; start a timer
                     // and return
@@ -204,10 +186,10 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                     free_moves_from(depth);
                     if (is_two_move) {
                         free_if_required(depth - 1);
-                        moves[depth - 1] = cheat_step_one;
-                        moves[depth] = cheat_step_two;
+                        moves[depth - 1] = copy_move(cheat_step_one);
+                        moves[depth] = copy_move(cheat_step_two);
                     } else {
-                        moves[depth] = move;
+                        moves[depth] = copy_move(move);
                     }
                     // If the timer is not already running, start it
                     start(timer, continue_millis);
@@ -222,10 +204,10 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                     free_if_required(depth);
                     if (is_two_move) {
                         free_if_required(depth - 1);
-                        moves[depth - 1] = cheat_step_one;
-                        moves[depth] = cheat_step_two;
+                        moves[depth - 1] = copy_move(cheat_step_one);
+                        moves[depth] = copy_move(cheat_step_two);
                     } else {
-                        moves[depth] = move;
+                        moves[depth] = copy_move(move);
                         // Found a solution better than any found double-Cheat
                         // so remember that this ISN'T a double-Cheat
                         solution_is_double_cheat = false;
@@ -234,13 +216,7 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                     // If the timer is not already running, start it
                     start(timer, continue_millis);
                 }
-#ifdef DEBUG
-                validate_board(board);
-#endif
                 unapply_move(board, move);
-#ifdef DEBUG
-                validate_board(board);
-#endif
                 if (is_two_move) {
                     // Decrement depth to return to the correct place
                     depth--;
@@ -260,22 +236,14 @@ finalise:
         free((void*)node->board_state);
         free(node);
     }
-    // If I found a solution, return the number of moves it took
-    if (found_solution) {
-        // Free either cheat_step_* if the solution uses a normal move, or move if the
-        // solution uses a double Cheat
-        if (!solution_is_double_cheat) {
-            free(cheat_step_one);
-            free(cheat_step_two);
-        } else {
-            free(move);
-        }
-        return max_moves;
-    }
-    // I didn't, so free the move to avoid a memory leak
+    // Free the loop variables to avoid a memory leak
     free(move);
     free(cheat_step_one);
     free(cheat_step_two);
+    // If I found a solution, return the number of moves it took
+    if (found_solution) {
+        return max_moves;
+    }
     return -1;
 }
 

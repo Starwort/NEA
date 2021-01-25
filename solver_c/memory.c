@@ -43,3 +43,13 @@ void deallocate_list(BoardHashTable_LLNode* node) {
     free(node);
     deallocate_list(next);
 }
+
+/* Copy a move
+ *
+ * Returned move needs freeing
+ */
+Move* copy_move(Move* move) {
+    Move* ret = malloc(sizeof(Move));
+    memcpy(ret, move, sizeof(Move));
+    return ret;
+}
