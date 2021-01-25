@@ -10,7 +10,7 @@ else ifeq ($(WARN_LEVEL),error)
     WARN_SETTINGS=-Wall -Wextra -Werror -pedantic-errors
 endif
 ifdef DEBUG
-    DEBUG_FLAGS=-g -lefence
+    DEBUG_FLAGS=-g -lefence -fsanitize=address
     all: solver
 else
     DEBUG_FLAGS=
