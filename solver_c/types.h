@@ -14,7 +14,6 @@ typedef struct _Column {
 
 typedef struct _Board {
     Column* cols[6];  // Board.cols[x][y]
-    int depth;
 } Board;
 
 typedef struct _Move {
