@@ -174,9 +174,7 @@ void unapply_move(Board* board, const Move* move) {
     from_col->stack_begin = from_col->count;
     from_col->count = move->from_y + n_elements;
     to_col->count = move->to_y;
-    if (move->was_cheat) {
-        from_col->cheated = true;
-    }
+    from_col->cheated = move->was_cheat;
     if (move->is_cheat) {
         to_col->cheated = false;
         to_col->stack_begin = stack_begin(to_col);
