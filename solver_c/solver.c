@@ -117,6 +117,7 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                 // If the timer is not already running, start it
                 start(timer, continue_millis);
                 max_moves = depth + 1;
+                unapply_move(board, move);
                 goto finalise;
             }
             int found = step(board, depth + 1, max_moves, allow_cheat);
@@ -193,6 +194,7 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                     // If the timer is not already running, start it
                     start(timer, continue_millis);
                     max_moves = depth + 1;
+                    unapply_move(board, move);
                     goto finalise;
                 }
                 int found = step(board, depth + 1, max_moves, allow_cheat);
