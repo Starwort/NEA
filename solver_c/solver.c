@@ -111,6 +111,9 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                 continue;
             }
             apply_move(board, move);
+#ifdef DEBUG
+            validate_board(board);
+#endif
             if (solved(board)) {
                 // Solving the board this move is the best I can do; start a timer and
                 // return
@@ -133,7 +136,13 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                 // If the timer is not already running, start it
                 start(timer, continue_millis);
             }
+#ifdef DEBUG
+            validate_board(board);
+#endif
             unapply_move(board, move);
+#ifdef DEBUG
+            validate_board(board);
+#endif
         }
     }
     if (allow_cheat) {
@@ -181,7 +190,13 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                     depth++;
                     solution_is_double_cheat = true;
                 }
+#ifdef DEBUG
+                validate_board(board);
+#endif
                 apply_move(board, move);
+#ifdef DEBUG
+                validate_board(board);
+#endif
                 if (solved(board)) {
                     // Solving the board this move is the best I can do; start a timer
                     // and return
@@ -219,7 +234,13 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
                     // If the timer is not already running, start it
                     start(timer, continue_millis);
                 }
+#ifdef DEBUG
+                validate_board(board);
+#endif
                 unapply_move(board, move);
+#ifdef DEBUG
+                validate_board(board);
+#endif
                 if (is_two_move) {
                     // Decrement depth to return to the correct place
                     depth--;
