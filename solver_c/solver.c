@@ -224,12 +224,12 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
     }
 finalise:
     // Cut the node out if I had to allocate it and we're not within the minimum cache
-    // boundary
-    if (free_node && remaining_moves > cache_boundary) {
+    // boundary, or if I've proven that it's possible to solve the board
+    if (found_solution || (free_node && remaining_moves > cache_boundary)) {
         if (last_node) {
             last_node->next = node->next;
         } else {
-            cache[board_hash] = NULL;
+            cache[board_hash] = node->next;
         }
         free((void*)node->board_state);
         free(node);
