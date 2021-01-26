@@ -229,7 +229,7 @@ finalise:
         if (last_node) {
             last_node->next = node->next;
         } else {
-            cache[board_hash] = node->next;
+            cache[board_hash] = (BoardHashTable_LLNode*)node->next;
         }
         free((void*)node->board_state);
         free(node);
