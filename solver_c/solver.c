@@ -225,7 +225,8 @@ int step(Board* board, int depth, int max_moves, bool allow_cheat) {
 finalise:
     // Cut the node out if I had to allocate it and we're not within the minimum cache
     // boundary, or if I've proven that it's possible to solve the board
-    if (found_solution || (free_node && remaining_moves > cache_boundary)) {
+    if (found_solution
+        || (free_node && cache_boundary != -1 && remaining_moves > cache_boundary)) {
         if (last_node) {
             last_node->next = node->next;
         } else {
@@ -273,9 +274,10 @@ int main(int argc, string argv[]) {
                 eprintln("  -c                Allow Cheating if no solution is found "
                          "without Cheating");
                 eprintln("  -n <cache moves>  How many moves may remain when deciding "
-                         "whether to cache or not");
+                         "whether to cache or not. -1 to cache all moves (not "
+                         "recommended).");
                 eprintln("  -t <milliseconds> How long to continue searching for a "
-                         "shorter solution after one is found");
+                         "shorter solution after one is found. -1 to search all moves");
                 eprintln("  -m <max moves>    How many moves to allow in total. Should "
                          "be a power of 2 as other numbers will be truncated to the "
                          "previous power of 2");

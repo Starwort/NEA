@@ -3,6 +3,11 @@
 /* Create a timer with extra_milliseconds on the clock
  */
 Time make_timer(int extra_milliseconds) {
+    // If extra_milliseconds == -1 then the user has disabled the timer (so don't start
+    // one)
+    if (extra_milliseconds == -1) {
+        return (Time) {0, 0};
+    }
     Time now;
     gettimeofday(&now, NULL);
     now.tv_usec += 1000 * extra_milliseconds;
