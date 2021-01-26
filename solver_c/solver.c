@@ -26,6 +26,7 @@ void clear_cache() {
 bool free_if_required(int idx) {
     if (moves[idx] != NULL) {
         free(moves[idx]);
+        moves[idx] = NULL;
         return true;
     }
     return false;
