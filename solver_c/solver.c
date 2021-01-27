@@ -252,7 +252,8 @@ int main(int argc, string argv[]) {
     bool solver_allow_cheat = false;
 
     int opt;
-    while ((opt = getopt(argc, argv, ":cn:t:m:")) != -1) {
+    int exit_code = EXIT_FAILURE;
+    while ((opt = getopt(argc, argv, ":chn:t:m:")) != -1) {
         switch (opt) {
             case 'c':
                 solver_allow_cheat = true;
@@ -266,22 +267,49 @@ int main(int argc, string argv[]) {
             case 'm':
                 max_depth = atoi(optarg);
                 break;
+            case '?':
+                eprintfln("%s: -%c: invalid option", argv[0], optopt);
+                goto print_help;
+            case ':':
+                eprintfln("%s: -%c: option requires an argument", argv[0], optopt);
+                goto print_help;
+            case 'h':
+                exit_code = EXIT_SUCCESS;
+                goto print_help;  // this line suppresses -Werror=implicit-fallthrough
             default:
+            print_help:
                 eprintfln(
-                    "Usage: %s [-c] [-n <moves>=16] [-t <milliseconds>=500] [-m <max "
+                    "Usage: %s [-ch] [-n <moves>=16] [-t <milliseconds>=500] [-m <max "
                     "moves>=1024] <STATE>",
                     argv[0]);
-                eprintln("  -c                Allow Cheating if no solution is found "
-                         "without Cheating");
-                eprintln("  -n <cache moves>  How many moves may remain when deciding "
-                         "whether to cache or not. -1 to cache all moves (not "
-                         "recommended).");
-                eprintln("  -t <milliseconds> How long to continue searching for a "
-                         "shorter solution after one is found. -1 to search all moves");
-                eprintln("  -m <max moves>    How many moves to allow in total. Should "
-                         "be a power of 2 as other numbers will be truncated to the "
-                         "previous power of 2");
-                exit(EXIT_FAILURE);
+                if (exit_code == EXIT_SUCCESS) {
+                    eprintln("  -c                  Allow Cheating.");
+                    eprintln(
+                        "                      The solver will only attempt to Cheat "
+                        "if a solution cannot be found without Cheating.");
+                    eprintln("  -h                  Print this message and exit.");
+                    eprintln(
+                        "  -n <cache boundary> The maximum number of moves remaining "
+                        "for the board state to be cached.");
+                    eprintln("                      Defaults to 16.");
+                    eprintln("                      If set to -1, all board states are "
+                             "cached. (Not recommended).");
+                    eprintln("  -t <milliseconds>   How long to continue searching for "
+                             "a more optimal solution after one is found.");
+                    eprintln("                      Defaults to 500 (0.5 seconds).");
+                    eprintln(
+                        "                      If set to -1, the solver will search "
+                        "all possibilities to find the most optimal solution.");
+                    eprintln(
+                        "  -m <maximum moves>  The maximum number of moves to allow.");
+                    eprintln("                      Defaults to 1024.");
+                    eprintln("                      Very large values will cause "
+                             "allocation errors.");
+                    eprintln("                      It is recommended to make this a "
+                             "power of two as the solver will only attempt to solve "
+                             "with maximum depths of powers of two.");
+                }
+                exit(exit_code);
         }
     }
     if (!argv[optind]) {

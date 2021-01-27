@@ -51,9 +51,9 @@ The solution will be fully automatic, and will be customisable ([don't] allow th
 - [ ] Standalone solitaire game
   - [ ] Detect win
   - [ ] Detect legal moves
-- [ ] The solver must support configuration:
-  - [ ] Maximum search depth (number of moves)
-  - [ ] (Allow/disallow/allow only when exhausted) Cheating
+- [x] The solver must support configuration:
+  - [x] Maximum search depth (number of moves)
+  - [x] Allow/disallow Cheating
 - [ ] The solver should have a vision interface
   - [ ] Read the board from the game with CV
 - [ ] The vision-solver must have a graphical configuration interface
@@ -101,7 +101,7 @@ Full information about the progress I make will be available in [the changelog](
 <!-- TODO: build mockup image and analyse -->
 ### Solver algorithm overview
 
-```psc
+```pseudocode
 to solve a given board:
     see if the board is solved
         if it is, return no moves
@@ -131,10 +131,31 @@ The board state passed to the solver is represented as a single string consistin
 
 Each column consists of a sequence of up to fourteen characters, representing the cards in the column, consisting solely of `T`, `K`, `D`, `V`, `0`, `9`, `8`, `7`, or `6`; terminated by a full stop (`.`) or exclamation mark (`!`), representing whether the top card of the column is Cheated (`!`) or not (`.`).
 
+The solver accepts 5 options:
+
+- `-c`
+  - Allow Cheating.
+  - The solver will only attempt to Cheat if a solution cannot be found without Cheating.
+- `-n <cache boundary>`
+  - The maximum number of moves remaining for the board state to be cached.
+  - Defaults to `16`.
+  - If set to `-1`, all board states are cached. (Not recommended).
+- `-t <milliseconds>`
+  - How long to continue searching for a more optimal solution after one is found.
+  - Defaults to `500` (0.5 seconds).
+  - If set to `-1`, the solver will search all possibilities to find the most optimal solution.
+- `-m <maximum moves>`
+  - The maximum number of moves to allow.
+  - Defaults to `1024`.
+  - Very large values will cause allocation errors.
+  - It is recommended to make this a power of two as the solver will only attempt to solve with maximum depths of powers of two.
+- `-h`
+  - Print the help message and exit.
+
 ### Output
 
-The solver outputs a sequence of moves, each formatted as `x y -> new_x new_y`. For example, to move column `1` from card `3` to column `2` at card `5`: `1 3 -> 2 5`.
+The solver outputs a sequence of moves, each formatted as `x y -> new_x new_y`, or `x y !> new_x new_y` for a Cheat move. For example, to move column `1` from card `3` to column `2` at card `5`: `1 3 -> 2 5`.
 
-Additionally, if the search depth is exceeded during a step, it will print a message to standard error stating such: `No solution found in <depth> moves`
+Additionally, if no solution is found in [depth] moves, it will print a message to standard error stating such: `No solution found in <depth> moves`
 
-The solver attempts to solve with search depths of 64, 128, 256, 512, and 1024; doubling the maximum depth when no solution is found.
+The solver attempts to solve with an initial search depth of 64; if no solution is found, the maximum search depth is doubled, until the specified maximum is exceeded.
