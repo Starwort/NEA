@@ -11,7 +11,7 @@ from .vision import print_board as display
 def full_solve_board(
     board: Image = None,
     print_board: bool = True,
-    allow_cheat: bool = False,
+    allow_cheat: bool = True,
     continue_milliseconds: int = None,
     cache_boundary: int = None,
     maximum_moves: int = None,
@@ -34,11 +34,12 @@ def full_solve_board(
 
 
 def solve_board(
-    board: Board = None,
-    allow_cheat: bool = False,
+    board: Board,
+    allow_cheat: bool = True,
     continue_milliseconds: int = None,
     cache_boundary: int = None,
     maximum_moves: int = None,
+    print_stats: bool = True,
 ) -> List[Move]:
     """Solve board with the given solver flags"""
     root = pathlib.Path(__file__).parent.parent
@@ -75,9 +76,13 @@ def solve_board(
         [str(solver), serialise_board(board)] + options, capture_output=True
     )
     out = process.stdout
-    moves = []
+    moves: List[Move] = []
     for line in out.decode("ascii").splitlines():
         from_x, from_y, move_type, to_x, to_y = MOVE.match(line).groups()
         move = Move(int(from_x), int(from_y), int(to_x), int(to_y), move_type == "!")
         moves.append(move)
+    if print_stats:
+        print("Moves:", len(moves))
+        num_cheats = sum(move.cheat for move in moves)
+        print("Number of Cheats:", num_cheats)
     return moves
