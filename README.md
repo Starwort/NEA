@@ -144,6 +144,10 @@ The solver accepts 5 options:
   - How long to continue searching for a more optimal solution after one is found.
   - Defaults to `500` (0.5 seconds).
   - If set to `-1`, the solver will search all possibilities to find the most optimal solution.
+- `-d <maximum moves>`
+  - The minimum maximum number of moves to allow.
+  - Defaults to `64`.
+  - Setting this to very low or very high values will increase run time and memory consumption.
 - `-m <maximum moves>`
   - The maximum number of moves to allow.
   - Defaults to `1024`.
@@ -158,4 +162,4 @@ The solver outputs a sequence of moves, each formatted as `x y -> new_x new_y`, 
 
 Additionally, if no solution is found in [depth] moves, it will print a message to standard error stating such: `No solution found in <depth> moves`
 
-The solver attempts to solve with an initial search depth of 16; if no solution is found, the maximum search depth is incremented by 4 until the specified maximum is exceeded.
+The solver attempts to solve with an initial search depth of the minimum maximum search depth; if no solution is found, the maximum search depth is incremented by 4 until the specified maximum is exceeded.

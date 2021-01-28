@@ -253,13 +253,17 @@ int main(int argc, string argv[]) {
 
     int opt;
     int exit_code = EXIT_FAILURE;
-    while ((opt = getopt(argc, argv, ":chn:t:m:")) != -1) {
+    int min_max_depth = 64;
+    while ((opt = getopt(argc, argv, ":chn:t:m:d:")) != -1) {
         switch (opt) {
             case 'c':
                 solver_allow_cheat = true;
                 break;
             case 'n':
                 cache_boundary = atoi(optarg);
+                break;
+            case 'd':
+                min_max_depth = atoi(optarg);
                 break;
             case 't':
                 continue_millis = atoi(optarg);
@@ -300,6 +304,12 @@ int main(int argc, string argv[]) {
                     eprintln(
                         "                      If set to -1, the solver will search "
                         "all possibilities to find the most optimal solution.");
+                    eprintln("  -d <maximum moves>  The minimum maximum number of "
+                             "moves to allow.");
+                    eprintln("                      Defaults to 64.");
+                    eprintln(
+                        "                      Setting this to very low or very high "
+                        "values will increase run time and memory consumption.");
                     eprintln(
                         "  -m <maximum moves>  The maximum number of moves to allow.");
                     eprintln("                      Defaults to 1024.");
@@ -318,7 +328,7 @@ int main(int argc, string argv[]) {
     }
     Board* board = parse_input(argv[optind]);
 
-    int start_max_depth = min(16, max_depth);
+    int start_max_depth = min(min_max_depth, max_depth);
     moves = calloc(max_depth, sizeof(Move*));
 
     for (int step_max_depth = start_max_depth; step_max_depth <= max_depth;
