@@ -155,7 +155,7 @@ starwort@hedwig ~/Documents/NEA master$ xargs -a samples/toy.txt dist/test | pyt
 
 Test result: Successful; 16 different hashes are generated; one per board state in the sample file (note that `wc` has an off-by-one error due to `samples/toy.txt` not containing a trailing newline)
 
-## Test #7: Hash collision (cheating)
+## Test #7: Hash collision (Cheating)
 
 [Commit of test (used to view the test at the time)](https://github.com/Starwort/NEA/commit/4b3894199036135bc13e0ffa85358459d9ae34c8)
 
@@ -166,3 +166,35 @@ starwort@hedwig ~/Documents/NEA master$ dist/test 668790.7V6D87.T87D9K.V0T980.DV
 ```
 
 Test result: Successful; the board states differ only by the cheat state of column 5, and the hash is different
+
+## Test #8: Optimal solution search
+
+[Commit of test (used to view the test at the time)](https://github.com/Starwort/NEA/commit/1472de4cb7bc1216b1e920f19927db1876bba531)
+
+- Test:
+
+  - ```xonsh
+    for line in $(cat samples/toy.txt).splitlines():
+        first = $(dist/solver @(line) -t 0)
+        best = $(dist/solver @(line) -t 10000)
+        if first != best:
+            print(f'Found a more optimal solution for board {line}')
+            break
+    ```
+
+- Explanation of how the test works:
+  - For every example within `samples/toy.txt`,
+    - Run the solver with an optimisation time of 0 milliseconds (do not attempt to optimise)
+      - This finds the solver's first valid solution
+    - Run the solver again with an optimisation time of 10,000 milliseconds (10 seconds)
+      - This finds an optimal solution without taking forever
+        - Using `-1` in order to search all possibilities is a bad idea
+    - If the optimal solution differs from the initial solution, then say so and exit
+- Output of the test:
+
+  - ```output
+    Found a more optimal solution for board VTK0KV.89K97V.697070.6TT880.D9T6K6.D7V8DD.
+    ```
+
+- Conclusion:
+  - The solver successfully searches for (and finds) an additional solution, given enough time
