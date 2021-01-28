@@ -355,7 +355,7 @@ int main(int argc, string argv[]) {
     if (solver_allow_cheat) {
         clear_cache();
         for (int step_max_depth = start_max_depth; step_max_depth <= max_depth;
-             max_depth += 4) {
+             step_max_depth += 4) {
             int n_moves = step(board, 0, step_max_depth, true);
             if (n_moves == -1) {
                 eprintfln("No solution found in %d moves (Cheating)", step_max_depth);
