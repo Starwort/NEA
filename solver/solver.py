@@ -43,7 +43,7 @@ def solve_board(
     kernel = platform.system()
     if kernel == "Windows":
         bits, _ = platform.architecture()
-        solver = root / "dist" / f"solver.{bits}.exe"
+        solver = root / "dist" / f"solver.{bits[:2]}.exe"
     elif kernel in ["Darwin", "Linux"]:
         print("Building solver for your OS...")
         try:
