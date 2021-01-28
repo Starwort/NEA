@@ -335,7 +335,7 @@ int main(int argc, string argv[]) {
          step_max_depth += 4) {
         int n_moves = step(board, 0, step_max_depth, false);
         if (n_moves == -1) {
-            eprintfln("No solution found in %d moves", step_max_depth);
+            eprintf("No solution found in %d moves\r", step_max_depth);
         } else {
             for (int i = 0; i < n_moves; i++) {
                 printfln(
@@ -358,7 +358,7 @@ int main(int argc, string argv[]) {
              step_max_depth += 4) {
             int n_moves = step(board, 0, step_max_depth, true);
             if (n_moves == -1) {
-                eprintfln("No solution found in %d moves (Cheating)", step_max_depth);
+                eprintf("No solution found in %d moves (Cheating)\r", step_max_depth);
             } else {
                 for (int i = 0; i < n_moves; i++) {
                     printfln(
