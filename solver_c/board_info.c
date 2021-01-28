@@ -74,6 +74,11 @@ bool can_move(const Board* board, Move* move) {
 
     // if we reach here then the attempted move Cheats
     move->is_cheat = true;
+    // Columns containing a full stack may not be the target of any move,
+    // including a Cheat
+    if (fcol->count == 9 && fcol->stack_begin == 0) {
+        return false;
+    }
     if (fcol->cheated) {
         // this is only a valid move if fcol->cards[fcol->count - 1] can
         // also be found in a legitimate position on a column that is neither
