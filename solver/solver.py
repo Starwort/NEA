@@ -21,7 +21,9 @@ def full_solve_board(
     If print_board is set, print the recognised board before solving it"""
     recognised_board = identify_board(board)
     if print_board:
+        print(serialise_board(recognised_board))
         display(recognised_board)
+        print()
     return solve_board(
         recognised_board,
         allow_cheat=allow_cheat,
