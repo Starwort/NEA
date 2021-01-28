@@ -1,6 +1,7 @@
 import pathlib
 import platform
 import subprocess
+import sys
 
 from .constants import MOVE
 from .typing import *
@@ -15,6 +16,8 @@ def full_solve_board(
     continue_milliseconds: int = None,
     cache_boundary: int = None,
     maximum_moves: int = None,
+    print_stats: bool = True,
+    solver_timeout: float = 10,
 ) -> List[Move]:
     """Recognise and solve a board with the given solver flags
 
@@ -30,6 +33,8 @@ def full_solve_board(
         continue_milliseconds=continue_milliseconds,
         cache_boundary=cache_boundary,
         maximum_moves=maximum_moves,
+        print_stats=print_stats,
+        solver_timeout=solver_timeout,
     )
 
 
@@ -40,6 +45,7 @@ def solve_board(
     cache_boundary: int = None,
     maximum_moves: int = None,
     print_stats: bool = True,
+    solver_timeout: float = 10,
 ) -> List[Move]:
     """Solve board with the given solver flags"""
     root = pathlib.Path(__file__).parent.parent
@@ -72,12 +78,24 @@ def solve_board(
     if maximum_moves is not None:
         options.append("-m")
         options.append(str(maximum_moves))
-    process = subprocess.run(
-        [str(solver), serialise_board(board)] + options, capture_output=True
-    )
-    out = process.stdout
+    try:
+        process = subprocess.run(
+            [str(solver), serialise_board(board)] + options,
+            capture_output=True,
+            timeout=solver_timeout,
+        )
+        out = process.stdout.decode("ascii")
+        if not out:
+            # Sometimes the program fails to capture the output. I don't
+            # know why, but let's just pretend no solution is found even if
+            # it's a output-capture bug :D
+            print("No solution found!", file=sys.stderr)
+            return []
+    except subprocess.TimeoutExpired:
+        print("Solver timed out!", file=sys.stderr)
+        return []
     moves: List[Move] = []
-    for line in out.decode("ascii").splitlines():
+    for line in out.splitlines():
         from_x, from_y, move_type, to_x, to_y = MOVE.match(line).groups()
         move = Move(int(from_x), int(from_y), int(to_x), int(to_y), move_type == "!")
         moves.append(move)
