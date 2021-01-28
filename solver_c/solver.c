@@ -306,8 +306,8 @@ int main(int argc, string argv[]) {
                     eprintln("                      Very large values will cause "
                              "allocation errors.");
                     eprintln("                      It is recommended to make this a "
-                             "power of two as the solver will only attempt to solve "
-                             "with maximum depths of powers of two.");
+                             "multiple of 4 as the solver will only attempt to solve "
+                             "with maximum depths of multiples of 4.");
                 }
                 exit(exit_code);
         }
@@ -318,11 +318,11 @@ int main(int argc, string argv[]) {
     }
     Board* board = parse_input(argv[optind]);
 
-    int start_max_depth = min(64, max_depth);
+    int start_max_depth = min(16, max_depth);
     moves = calloc(max_depth, sizeof(Move*));
 
     for (int step_max_depth = start_max_depth; step_max_depth <= max_depth;
-         step_max_depth <<= 1) {
+         step_max_depth += 4) {
         int n_moves = step(board, 0, step_max_depth, false);
         if (n_moves == -1) {
             eprintfln("No solution found in %d moves", step_max_depth);
@@ -345,7 +345,7 @@ int main(int argc, string argv[]) {
     if (solver_allow_cheat) {
         clear_cache();
         for (int step_max_depth = start_max_depth; step_max_depth <= max_depth;
-             max_depth <<= 1) {
+             max_depth += 4) {
             int n_moves = step(board, 0, step_max_depth, true);
             if (n_moves == -1) {
                 eprintfln("No solution found in %d moves (Cheating)", step_max_depth);

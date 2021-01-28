@@ -148,7 +148,7 @@ The solver accepts 5 options:
   - The maximum number of moves to allow.
   - Defaults to `1024`.
   - Very large values will cause allocation errors.
-  - It is recommended to make this a power of two as the solver will only attempt to solve with maximum depths of powers of two.
+  - It is recommended to make this a multiple of 4 as the solver will only attempt to solve with maximum depths of multiples of 4.
 - `-h`
   - Print the help message and exit.
 
@@ -158,4 +158,4 @@ The solver outputs a sequence of moves, each formatted as `x y -> new_x new_y`, 
 
 Additionally, if no solution is found in [depth] moves, it will print a message to standard error stating such: `No solution found in <depth> moves`
 
-The solver attempts to solve with an initial search depth of 64; if no solution is found, the maximum search depth is doubled, until the specified maximum is exceeded.
+The solver attempts to solve with an initial search depth of 16; if no solution is found, the maximum search depth is incremented by 4 until the specified maximum is exceeded.
