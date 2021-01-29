@@ -15,5 +15,5 @@ def solve_n_games(n: int, **kwargs) -> None:
         solution = full_solve_board(**kwargs)
         if solution:
             solved += 1
-            run_solution(solution, solved != n)
-            sleep(5)
+        run_solution(solution, solved != n)
+        sleep(5)
