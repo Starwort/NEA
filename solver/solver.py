@@ -81,7 +81,8 @@ def solve_board(
     try:
         process = subprocess.run(
             [str(solver), serialise_board(board)] + options,
-            capture_output=True,
+            shell=False,
+            stdout=subprocess.PIPE,
             timeout=solver_timeout,
         )
         out = process.stdout.decode("ascii")
