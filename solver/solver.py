@@ -80,16 +80,13 @@ def solve_board(
         options.append(str(maximum_moves))
     try:
         process = subprocess.run(
-            [str(solver), serialise_board(board)] + options,
+            [str(solver), *options, serialise_board(board)],
             shell=False,
             stdout=subprocess.PIPE,
             timeout=solver_timeout,
         )
         out = process.stdout.decode("ascii")
         if not out:
-            # Sometimes the program fails to capture the output. I don't
-            # know why, but let's just pretend no solution is found even if
-            # it's a output-capture bug :D
             print("No solution found!", file=sys.stderr)
             return []
     except subprocess.TimeoutExpired:
