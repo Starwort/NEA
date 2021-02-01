@@ -1,0 +1,11 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+-   repo: local
+    hooks:
+    -   id: autodoc
+        name: document
+        entry: bash -c 'pandoc README.md TIMELINE.md test_log.md debugging_session.md -o all.docx; git add -u'
+        language: system
+        verbose: false
+        always_run: true
