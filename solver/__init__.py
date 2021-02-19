@@ -2,6 +2,7 @@ from time import sleep
 
 from .automation import *
 from .constants import *
+from .gui import SolverApp
 from .solver import *
 from .typing import *
 from .vision import *

@@ -1,0 +1,352 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface version="1.0">
+  <object class="ttk.Frame" id="frame_1">
+    <property name="height">200</property>
+    <property name="width">200</property>
+    <layout manager="pack">
+      <property name="expand">true</property>
+      <property name="fill">both</property>
+      <property name="propagate">True</property>
+      <property name="side">top</property>
+    </layout>
+    <child>
+      <object class="ttk.Labelframe" id="solver_controls">
+        <property name="relief">groove</property>
+        <property name="text" translatable="yes">Controls</property>
+        <property name="width">500</property>
+        <layout manager="grid">
+          <property name="column">0</property>
+          <property name="padx">5</property>
+          <property name="pady">5</property>
+          <property name="propagate">True</property>
+          <property name="row">0</property>
+          <property name="sticky">nsew</property>
+          <property type="col" id="0" name="minsize">500</property>
+          <property type="col" id="0" name="pad">0</property>
+          <property type="row" id="0" name="pad">0</property>
+        </layout>
+        <child>
+          <object class="ttk.Checkbutton" id="cheat_box">
+            <property name="idtocommand">false</property>
+            <property name="variable">boolean:cheat</property>
+            <property name="width">10</property>
+            <layout manager="grid">
+              <property name="column">3</property>
+              <property name="propagate">True</property>
+              <property name="sticky">nsew</property>
+              <property type="col" id="1" name="pad">5</property>
+              <property type="col" id="2" name="pad">5</property>
+              <property type="col" id="3" name="minsize">115</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="label_1">
+            <property name="anchor">e</property>
+            <property name="text" translatable="yes">Games</property>
+            <bind sequence="&lt;Enter&gt;" handler="setstatus(ui.text.games)" add="" />
+            <bind sequence="&lt;Leave&gt;" handler="setstatus(ui.text.blank)" add="" />
+            <layout manager="grid">
+              <property name="column">1</property>
+              <property name="propagate">True</property>
+              <property name="row">10</property>
+              <property name="sticky">nsew</property>
+              <property type="col" id="0" name="pad">5</property>
+              <property type="col" id="1" name="minsize">115</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="label_2">
+            <property name="anchor">e</property>
+            <property name="text" translatable="yes">Cheating</property>
+            <property name="width">10</property>
+            <bind sequence="&lt;Enter&gt;" handler="setstatus(ui.text.cheat)" add="" />
+            <bind sequence="&lt;Leave&gt;" handler="setstatus(ui.text.blank)" add="" />
+            <layout manager="grid">
+              <property name="column">1</property>
+              <property name="propagate">True</property>
+              <property name="row">0</property>
+              <property name="sticky">nsew</property>
+              <property type="col" id="0" name="pad">5</property>
+              <property type="col" id="1" name="minsize">115</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="label_4">
+            <property name="anchor">e</property>
+            <property name="text" translatable="yes">Continue</property>
+            <bind sequence="&lt;Enter&gt;" handler="setstatus(ui.text.continue)" add="" />
+            <bind sequence="&lt;Leave&gt;" handler="setstatus(ui.text.blank)" add="" />
+            <layout manager="grid">
+              <property name="column">1</property>
+              <property name="propagate">True</property>
+              <property name="row">2</property>
+              <property name="sticky">nsew</property>
+              <property type="col" id="0" name="pad">5</property>
+              <property type="col" id="1" name="minsize">115</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="label_5">
+            <property name="anchor">e</property>
+            <property name="text" translatable="yes">Cache</property>
+            <bind sequence="&lt;Enter&gt;" handler="setstatus(ui.text.cache)" add="" />
+            <bind sequence="&lt;Leave&gt;" handler="setstatus(ui.text.blank)" add="" />
+            <layout manager="grid">
+              <property name="column">1</property>
+              <property name="propagate">True</property>
+              <property name="row">3</property>
+              <property name="sticky">nsew</property>
+              <property type="col" id="0" name="pad">5</property>
+              <property type="col" id="1" name="minsize">115</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="label_6">
+            <property name="anchor">e</property>
+            <property name="text" translatable="yes">Max moves</property>
+            <bind sequence="&lt;Enter&gt;" handler="setstatus(ui.text.max)" add="" />
+            <bind sequence="&lt;Leave&gt;" handler="setstatus(ui.text.blank)" add="" />
+            <layout manager="grid">
+              <property name="column">1</property>
+              <property name="propagate">True</property>
+              <property name="row">4</property>
+              <property name="sticky">nsew</property>
+              <property type="col" id="0" name="pad">5</property>
+              <property type="col" id="1" name="minsize">115</property>
+              <property type="row" id="4" name="pad">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Spinbox" id="num_solves">
+            <property name="from_">1</property>
+            <property name="justify">right</property>
+            <property name="text" translatable="yes">1</property>
+            <property name="textvariable">int:games</property>
+            <property name="width">5</property>
+            <layout manager="grid">
+              <property name="column">3</property>
+              <property name="propagate">True</property>
+              <property name="row">10</property>
+              <property name="sticky">w</property>
+              <property type="col" id="1" name="pad">5</property>
+              <property type="col" id="2" name="pad">5</property>
+              <property type="col" id="3" name="minsize">115</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Spinbox" id="continue_box">
+            <property name="from_">-1</property>
+            <property name="justify">right</property>
+            <property name="text" translatable="yes">500</property>
+            <property name="textvariable">int:continue_millis</property>
+            <property name="width">5</property>
+            <layout manager="grid">
+              <property name="column">3</property>
+              <property name="propagate">True</property>
+              <property name="row">2</property>
+              <property name="sticky">w</property>
+              <property type="col" id="1" name="pad">5</property>
+              <property type="col" id="2" name="pad">5</property>
+              <property type="col" id="3" name="minsize">115</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Spinbox" id="cache_box">
+            <property name="from_">-1</property>
+            <property name="justify">right</property>
+            <property name="text" translatable="yes">16</property>
+            <property name="textvariable">int:cache</property>
+            <property name="width">5</property>
+            <layout manager="grid">
+              <property name="column">3</property>
+              <property name="propagate">True</property>
+              <property name="row">3</property>
+              <property name="sticky">w</property>
+              <property type="col" id="1" name="pad">5</property>
+              <property type="col" id="2" name="pad">5</property>
+              <property type="col" id="3" name="minsize">115</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="pad_centre">
+            <layout manager="grid">
+              <property name="column">2</property>
+              <property name="propagate">True</property>
+              <property name="row">0</property>
+              <property type="col" id="1" name="pad">5</property>
+              <property type="col" id="2" name="minsize">20</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Spinbox" id="max_moves_box">
+            <property name="from_">64</property>
+            <property name="justify">right</property>
+            <property name="text" translatable="yes">1024</property>
+            <property name="textvariable">int:max_moves</property>
+            <property name="to">4096</property>
+            <property name="width">5</property>
+            <layout manager="grid">
+              <property name="column">3</property>
+              <property name="propagate">True</property>
+              <property name="row">4</property>
+              <property name="sticky">w</property>
+              <property type="col" id="1" name="pad">5</property>
+              <property type="col" id="2" name="pad">5</property>
+              <property type="col" id="3" name="minsize">115</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Separator" id="separator_1">
+            <property name="orient">horizontal</property>
+            <layout manager="grid">
+              <property name="column">0</property>
+              <property name="columnspan">5</property>
+              <property name="padx">5</property>
+              <property name="pady">5</property>
+              <property name="propagate">True</property>
+              <property name="row">9</property>
+              <property name="sticky">ew</property>
+              <property type="col" id="0" name="minsize">125</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="label_8">
+            <property name="anchor">e</property>
+            <property name="text" translatable="yes">Min depth</property>
+            <bind sequence="&lt;Enter&gt;" handler="setstatus(ui.text.min)" add="" />
+            <bind sequence="&lt;Leave&gt;" handler="setstatus(ui.text.blank)" add="" />
+            <layout manager="grid">
+              <property name="column">1</property>
+              <property name="propagate">True</property>
+              <property name="row">5</property>
+              <property name="sticky">nsew</property>
+              <property type="col" id="0" name="pad">5</property>
+              <property type="col" id="1" name="minsize">115</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Spinbox" id="min_depth_box">
+            <property name="from_">4</property>
+            <property name="increment">4</property>
+            <property name="justify">right</property>
+            <property name="text" translatable="yes">64</property>
+            <property name="textvariable">int:min_depth</property>
+            <property name="to">1024</property>
+            <property name="width">5</property>
+            <layout manager="grid">
+              <property name="column">3</property>
+              <property name="propagate">True</property>
+              <property name="row">5</property>
+              <property name="sticky">w</property>
+              <property type="col" id="1" name="pad">5</property>
+              <property type="col" id="2" name="pad">5</property>
+              <property type="col" id="3" name="minsize">115</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="label_9">
+            <property name="anchor">e</property>
+            <property name="text" translatable="yes">Timeout</property>
+            <bind sequence="&lt;Enter&gt;" handler="setstatus(ui.text.timeout)" add="" />
+            <bind sequence="&lt;Leave&gt;" handler="setstatus(ui.text.blank)" add="" />
+            <layout manager="grid">
+              <property name="column">1</property>
+              <property name="propagate">True</property>
+              <property name="row">6</property>
+              <property name="sticky">nsew</property>
+              <property type="col" id="0" name="pad">5</property>
+              <property type="col" id="1" name="minsize">115</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Spinbox" id="spinbox_6">
+            <property name="from_">1</property>
+            <property name="justify">right</property>
+            <property name="text" translatable="yes">10.0</property>
+            <property name="textvariable">double:timeout</property>
+            <property name="width">5</property>
+            <layout manager="grid">
+              <property name="column">3</property>
+              <property name="propagate">True</property>
+              <property name="row">6</property>
+              <property name="sticky">w</property>
+              <property type="col" id="1" name="pad">5</property>
+              <property type="col" id="2" name="pad">5</property>
+              <property type="col" id="3" name="minsize">115</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Button" id="go">
+            <property name="command">solve</property>
+            <property name="idtocommand">false</property>
+            <property name="text" translatable="yes">Go</property>
+            <layout manager="grid">
+              <property name="column">1</property>
+              <property name="columnspan">3</property>
+              <property name="padx">5</property>
+              <property name="pady">5</property>
+              <property name="propagate">True</property>
+              <property name="row">11</property>
+              <property name="sticky">nsew</property>
+              <property type="col" id="0" name="pad">5</property>
+              <property type="col" id="1" name="minsize">115</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="pad_left">
+            <property name="width">10</property>
+            <layout manager="grid">
+              <property name="column">0</property>
+              <property name="propagate">True</property>
+              <property name="row">0</property>
+              <property type="col" id="0" name="minsize">125</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="pad_right">
+            <property name="width">10</property>
+            <layout manager="grid">
+              <property name="column">4</property>
+              <property name="propagate">True</property>
+              <property name="row">0</property>
+              <property type="col" id="4" name="minsize">125</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="status">
+        <property name="anchor">w</property>
+        <property name="relief">sunken</property>
+        <property name="text" translatable="yes">Status text</property>
+        <layout manager="grid">
+          <property name="column">0</property>
+          <property name="propagate">True</property>
+          <property name="row">1</property>
+          <property name="sticky">nsew</property>
+          <property type="col" id="0" name="minsize">500</property>
+          <property type="col" id="0" name="pad">0</property>
+        </layout>
+      </object>
+    </child>
+  </object>
+</interface>

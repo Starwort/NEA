@@ -16,6 +16,7 @@ def full_solve_board(
     continue_milliseconds: int = None,
     cache_boundary: int = None,
     maximum_moves: int = None,
+    minimum_moves: int = None,
     print_stats: bool = True,
     solver_timeout: float = 10,
 ) -> List[Move]:
@@ -33,6 +34,7 @@ def full_solve_board(
         continue_milliseconds=continue_milliseconds,
         cache_boundary=cache_boundary,
         maximum_moves=maximum_moves,
+        minimum_moves=minimum_moves,
         print_stats=print_stats,
         solver_timeout=solver_timeout,
     )
@@ -44,6 +46,7 @@ def solve_board(
     continue_milliseconds: int = None,
     cache_boundary: int = None,
     maximum_moves: int = None,
+    minimum_moves: int = None,
     print_stats: bool = True,
     solver_timeout: float = 10,
 ) -> List[Move]:
@@ -78,6 +81,9 @@ def solve_board(
     if maximum_moves is not None:
         options.append("-m")
         options.append(str(maximum_moves))
+    if minimum_moves is not None:
+        options.append("-d")
+        options.append(str(minimum_moves))
     try:
         process = subprocess.run(
             [str(solver), *options, serialise_board(board)],
