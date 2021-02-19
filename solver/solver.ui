@@ -14,16 +14,13 @@
         <property name="relief">groove</property>
         <property name="text" translatable="yes">Controls</property>
         <property name="width">500</property>
-        <layout manager="grid">
-          <property name="column">0</property>
+        <layout manager="pack">
+          <property name="expand">true</property>
+          <property name="fill">both</property>
           <property name="padx">5</property>
           <property name="pady">5</property>
           <property name="propagate">True</property>
-          <property name="row">0</property>
-          <property name="sticky">nsew</property>
-          <property type="col" id="0" name="minsize">500</property>
-          <property type="col" id="0" name="pad">0</property>
-          <property type="row" id="0" name="pad">0</property>
+          <property name="side">top</property>
         </layout>
         <child>
           <object class="ttk.Checkbutton" id="cheat_box">
@@ -123,35 +120,18 @@
           </object>
         </child>
         <child>
-          <object class="ttk.Spinbox" id="num_solves">
-            <property name="from_">1</property>
-            <property name="justify">right</property>
-            <property name="text" translatable="yes">1</property>
-            <property name="textvariable">int:games</property>
-            <property name="width">5</property>
-            <layout manager="grid">
-              <property name="column">3</property>
-              <property name="propagate">True</property>
-              <property name="row">10</property>
-              <property name="sticky">w</property>
-              <property type="col" id="1" name="pad">5</property>
-              <property type="col" id="2" name="pad">5</property>
-              <property type="col" id="3" name="minsize">115</property>
-            </layout>
-          </object>
-        </child>
-        <child>
           <object class="ttk.Spinbox" id="continue_box">
             <property name="from_">-1</property>
             <property name="justify">right</property>
             <property name="text" translatable="yes">500</property>
             <property name="textvariable">int:continue_millis</property>
+            <property name="to">9999999999999</property>
             <property name="width">5</property>
             <layout manager="grid">
               <property name="column">3</property>
               <property name="propagate">True</property>
               <property name="row">2</property>
-              <property name="sticky">w</property>
+              <property name="sticky">nsew</property>
               <property type="col" id="1" name="pad">5</property>
               <property type="col" id="2" name="pad">5</property>
               <property type="col" id="3" name="minsize">115</property>
@@ -164,12 +144,13 @@
             <property name="justify">right</property>
             <property name="text" translatable="yes">16</property>
             <property name="textvariable">int:cache</property>
+            <property name="to">9999999999999</property>
             <property name="width">5</property>
             <layout manager="grid">
               <property name="column">3</property>
               <property name="propagate">True</property>
               <property name="row">3</property>
-              <property name="sticky">w</property>
+              <property name="sticky">nsew</property>
               <property type="col" id="1" name="pad">5</property>
               <property type="col" id="2" name="pad">5</property>
               <property type="col" id="3" name="minsize">115</property>
@@ -190,6 +171,7 @@
         <child>
           <object class="ttk.Spinbox" id="max_moves_box">
             <property name="from_">64</property>
+            <property name="increment">4</property>
             <property name="justify">right</property>
             <property name="text" translatable="yes">1024</property>
             <property name="textvariable">int:max_moves</property>
@@ -199,7 +181,7 @@
               <property name="column">3</property>
               <property name="propagate">True</property>
               <property name="row">4</property>
-              <property name="sticky">w</property>
+              <property name="sticky">nsew</property>
               <property type="col" id="1" name="pad">5</property>
               <property type="col" id="2" name="pad">5</property>
               <property type="col" id="3" name="minsize">115</property>
@@ -250,7 +232,7 @@
               <property name="column">3</property>
               <property name="propagate">True</property>
               <property name="row">5</property>
-              <property name="sticky">w</property>
+              <property name="sticky">nsew</property>
               <property type="col" id="1" name="pad">5</property>
               <property type="col" id="2" name="pad">5</property>
               <property type="col" id="3" name="minsize">115</property>
@@ -274,17 +256,38 @@
           </object>
         </child>
         <child>
-          <object class="ttk.Spinbox" id="spinbox_6">
+          <object class="ttk.Spinbox" id="timeout_box">
             <property name="from_">1</property>
+            <property name="increment">0.5</property>
             <property name="justify">right</property>
             <property name="text" translatable="yes">10.0</property>
             <property name="textvariable">double:timeout</property>
+            <property name="to">9999999999999</property>
             <property name="width">5</property>
             <layout manager="grid">
               <property name="column">3</property>
               <property name="propagate">True</property>
               <property name="row">6</property>
-              <property name="sticky">w</property>
+              <property name="sticky">nsew</property>
+              <property type="col" id="1" name="pad">5</property>
+              <property type="col" id="2" name="pad">5</property>
+              <property type="col" id="3" name="minsize">115</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Spinbox" id="num_solves">
+            <property name="from_">1</property>
+            <property name="justify">right</property>
+            <property name="text" translatable="yes">1</property>
+            <property name="textvariable">int:games</property>
+            <property name="to">9999999999999</property>
+            <property name="width">5</property>
+            <layout manager="grid">
+              <property name="column">3</property>
+              <property name="propagate">True</property>
+              <property name="row">10</property>
+              <property name="sticky">nsew</property>
               <property type="col" id="1" name="pad">5</property>
               <property type="col" id="2" name="pad">5</property>
               <property type="col" id="3" name="minsize">115</property>
@@ -338,13 +341,11 @@
         <property name="anchor">w</property>
         <property name="relief">sunken</property>
         <property name="text" translatable="yes">Status text</property>
-        <layout manager="grid">
-          <property name="column">0</property>
+        <layout manager="pack">
+          <property name="expand">true</property>
+          <property name="fill">x</property>
           <property name="propagate">True</property>
-          <property name="row">1</property>
-          <property name="sticky">nsew</property>
-          <property type="col" id="0" name="minsize">500</property>
-          <property type="col" id="0" name="pad">0</property>
+          <property name="side">top</property>
         </layout>
       </object>
     </child>
