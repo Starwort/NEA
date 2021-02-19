@@ -1,1 +1,6 @@
 theme: jekyll-theme-cayman
+title: Computer Science NEA
+lang: en-GB
+github:
+  is_project_page: yes
+markdown: GFM

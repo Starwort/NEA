@@ -1,0 +1,52 @@
+:root {
+    /* accent colours */
+    --primary: #6200EE;
+    --primary-variant: #3700B3;
+    --secondary: #03DAC6;
+    --secondary-variant: #018789;
+    --error: #B00020;
+    --success: #4CAF50;
+    --warn: #EF6C00;
+    --info: #2196F3;
+    /* document colours */
+    --surface: #FFFFFF;
+    --on-primary: #FFFFFF;
+    --on-secondary: #000000;
+    --on-surface: #000000;
+    --on-error: #FFFFFF;
+    --on-success: #FFFFFF;
+    --on-warn: #FFFFFF;
+    --on-info: #FFFFFF;
+    /* elevations */
+    --sunken-border: #DDDDDD;
+    --elevation-1: #FFFFFF;
+    --elevation-2: #FFFFFF;
+    --elevation-3: #FFFFFF;
+    --elevation-4: #FFFFFF;
+    --elevation-5: #FFFFFF;
+    --elevation-6: #FFFFFF;
+    --elevation-7: #FFFFFF;
+    --elevation-8: #FFFFFF;
+    --elevation-9: #FFFFFF;
+    --elevation-10: #FFFFFF;
+    --elevation-11: #FFFFFF;
+    --elevation-12: #FFFFFF;
+    --elevation-13: #FFFFFF;
+    --elevation-14: #FFFFFF;
+    --elevation-15: #FFFFFF;
+    --elevation-16: #FFFFFF;
+    --elevation-17: #FFFFFF;
+    --elevation-18: #FFFFFF;
+    --elevation-19: #FFFFFF;
+    --elevation-20: #FFFFFF;
+    --elevation-21: #FFFFFF;
+    --elevation-22: #FFFFFF;
+    --elevation-23: #FFFFFF;
+    --elevation-24: #FFFFFF;
+    --elevation-primary: #C79DFC;
+    --primary-overlay: #BB86FC2D;
+    /* component backgrounds */
+    --input-overlay: #0000000D;
+    --to-primary: #F3E9FE;
+    --to-surface: #DABDFD;
+}

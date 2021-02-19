@@ -1,0 +1,52 @@
+:root {
+    /* accent colours */
+    --primary: #BB86FC;
+    --primary-variant: #3700B3;
+    --secondary: #03DAC6;
+    --secondary-variant: #03DAC6;
+    --error: #CC596E;
+    --success: #81C784;
+    --warn: #FFCC80;
+    --info: #B3E5FC;
+    /* document colours */
+    --surface: #1E1E1E;
+    --on-primary: #000000;
+    --on-secondary: #000000;
+    --on-surface: #FFFFFF;
+    --on-error: #000000;
+    --on-success: #000000;
+    --on-warn: #000000;
+    --on-info: #000000;
+    /* elevations */
+    --sunken-border: #333333;
+    --elevation-1: #1E1E1E;
+    --elevation-2: #222222;
+    --elevation-3: #242424;
+    --elevation-4: #272727;
+    --elevation-5: #272727;
+    --elevation-6: #2C2C2C;
+    --elevation-7: #2C2C2C;
+    --elevation-8: #2E2E2E;
+    --elevation-9: #2E2E2E;
+    --elevation-10: #2E2E2E;
+    --elevation-11: #2E2E2E;
+    --elevation-12: #333333;
+    --elevation-13: #333333;
+    --elevation-14: #333333;
+    --elevation-15: #333333;
+    --elevation-16: #353535;
+    --elevation-17: #353535;
+    --elevation-18: #353535;
+    --elevation-19: #353535;
+    --elevation-20: #353535;
+    --elevation-21: #353535;
+    --elevation-22: #353535;
+    --elevation-23: #353535;
+    --elevation-24: #383838;
+    --elevation-primary: #C79DFC;
+    --primary-overlay: #BB86FC2D;
+    /* component backgrounds */
+    --input-overlay: #FFFFFF0D;
+    --to-primary: #31273D;
+    --to-surface: #7E5CA7;
+}

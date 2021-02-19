@@ -1,0 +1,529 @@
+@mixin inset-shadow($dp) {
+    -webkit-box-shadow: inset 0px 7.5px 10px ($dp * 1)-15px rgba(0, 0, 0);
+    -moz-box-shadow: inset 0px 7.5px 10px ($dp * 1)-15px rgba(0, 0, 0);
+    box-shadow: inset 0px 7.5px 10px ($dp * 1)-15px rgba(0, 0, 0);
+    -webkit-transition: box-shadow 0.25s ease-out;
+    -moz-transition: box-shadow 0.25s ease-out;
+    transition: box-shadow 0.25s ease-out;
+}
+
+@mixin focus-highlight($include-inset) {
+    &:focus {
+        @if $include-inset {
+            -webkit-box-shadow: 0 0 4px 0px #bb86fc, inset 0 0 4px 0px #bb86fc;
+            -moz-box-shadow: 0 0 4px 0px #bb86fc, inset 0 0 4px 0px #bb86fc;
+            box-shadow: 0 0 4px 0px #bb86fc, inset 0 0 4px 0px #bb86fc;
+        } @else {
+            -webkit-box-shadow: 0 0 4px 0px #bb86fc;
+            -moz-box-shadow: 0 0 4px 0px #bb86fc;
+            box-shadow: 0 0 4px 0px #bb86fc;
+        }
+        outline: none;
+    }
+    -webkit-transition: box-shadow 0.25s ease-out;
+    -moz-transition: box-shadow 0.25s ease-out;
+    transition: box-shadow 0.25s ease-out;
+}
+
+@mixin shadow($dp) {
+    -webkit-filter: drop-shadow(
+        ($dp * 0.5px) ($dp * 0.5px) ($dp * 0.25px) rgba(0, 0, 0)
+    );
+    -moz-filter: drop-shadow(($dp * 0.5px) ($dp * 0.5px) ($dp * 0.25px) rgba(0, 0, 0));
+    filter: drop-shadow(($dp * 0.5px) ($dp * 0.5px) ($dp * 0.25px) rgba(0, 0, 0));
+    -webkit-transition: filter 0.1s ease-out;
+    transition: filter 0.1s ease-out;
+}
+
+// ::-webkit-scrollbar the scrollbar.
+// ::-webkit-scrollbar-button the buttons on the scrollbar (arrows pointing upwards and downwards).
+// ::-webkit-scrollbar-thumb the draggable scrolling handle.
+// ::-webkit-scrollbar-track the track (progress bar) of the scrollbar.
+// ::-webkit-scrollbar-track-piece the track (progress bar) NOT covered by the handle.
+// ::-webkit-scrollbar-corner the bottom corner of the scrollbar, where both horizontal and vertical scrollbars meet.
+// ::-webkit-resizer the draggable resizing handle that appears at the bottom corner of some elements.
+
+@mixin scrollbar-track-base {
+    background-color: var(--elevation-1);
+    width: 10px;
+}
+
+@mixin scrollbar-buttons {
+    background-color: var(--elevation-4);
+    &:hover {
+        background-color: var(--elevation-6);
+    }
+    border: 2px solid var(--elevation-2);
+    height: 10px;
+    font-family: "Material Icons";
+}
+
+@mixin scrollbar-handle {
+    background-color: var(--elevation-12);
+    border: 2px solid var(--elevation-6);
+}
+
+@mixin scrollbar-track-main {
+    border-left: 2px solid var(--elevation-4);
+    border-right: 2px solid var(--elevation-4);
+}
+
+@mixin scrollbar-track-uncovered {
+    // border-left: 1px solid var(--elevation-2);
+    // border-right: 1px solid var(--elevation-2);
+}
+
+::-webkit-scrollbar {
+    @include scrollbar-track-base;
+}
+::-webkit-scrollbar-button {
+    @include scrollbar-buttons;
+    content: "face";
+    &:first-of-type {
+        content: "keyboard_arrow_up";
+    }
+    &:last-of-type {
+        content: "keyboard_arrow_down";
+    }
+}
+::-webkit-scrollbar-thumb {
+    @include scrollbar-handle;
+}
+::-webkit-scrollbar-track {
+    @include scrollbar-track-main;
+}
+::-webkit-scrollbar-track-piece {
+    @include scrollbar-track-uncovered;
+}
+
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+
+body {
+    background-color: var(--surface);
+    color: var(--on-surface);
+    font-size: 18px;
+    font-family: Roboto, Helvetica Neue, sans-serif;
+    color-scheme: light dark;
+}
+
+label {
+    display: block;
+    text-transform: uppercase;
+    font-size: 50%;
+    margin-bottom: -15px;
+    margin-top: 12px;
+    margin-left: 6px;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+input[type="email"],
+input[type="number"],
+input[type="password"],
+// input[type="search"],
+input[type="tel"],
+input[type="text"],
+input[type="url"] {
+    height: 1em;
+}
+
+div.card {
+    background-color: var(--surface);
+    border: 1px solid var(--sunken-border);
+    border-radius: 4px;
+    margin: 2px;
+    padding: 4px;
+
+    @for $dp from 1 to 24 {
+        &.elevation-#{$dp} {
+            @include shadow($dp);
+            background-color: var(--elevation-#{$dp});
+
+            @for $idp from 1 to $dp {
+                & div.card.elevation-#{$idp} {
+                    @include inset-shadow($dp - $idp);
+                }
+            }
+
+            @for $idp from $dp to 24 {
+                & div.card.elevation-#{$idp} {
+                    @include shadow($idp - $dp);
+                }
+            }
+        }
+    }
+
+    &.error {
+        background-color: var(--error);
+        color: var(--on-error);
+    }
+
+    &.success {
+        background-color: var(--success);
+        color: var(--on-success);
+    }
+
+    &.warn {
+        background-color: var(--warn);
+        color: var(--on-warn);
+    }
+
+    &.info {
+        background-color: var(--info);
+        color: var(--on-info);
+    }
+}
+
+p {
+    margin: 0;
+}
+
+@mixin button() {
+    margin: 2px;
+    padding: 2px 4px;
+    color: var(--on-surface);
+    border-radius: 4px;
+    border: 1px solid var(--sunken-border);
+    background-color: var(--surface);
+
+    @include focus-highlight(false);
+
+    &.primary-colour {
+        background-color: var(--primary);
+        color: var(--on-primary);
+        border-radius: 4px;
+        border: 1px solid var(--primary);
+
+        &:not(:disabled) {
+            &:hover {
+                @include shadow(4);
+                background-color: var(--elevation-primary);
+            }
+        }
+    }
+
+    &:not(:disabled) {
+        @include shadow(2);
+        &:hover {
+            @include shadow(4);
+            background-color: var(--elevation-1);
+            border: 1px solid transparent;
+        }
+    }
+}
+
+input[type="button"] {
+    @include button;
+}
+
+input[type="file"] {
+    margin-top: 15px;
+    border-radius: 4px;
+
+    @include focus-highlight(true);
+}
+input[type="image"] {
+    border-radius: 4px;
+
+    @include focus-highlight(true);
+}
+
+::-webkit-file-upload-button {
+    @include button;
+}
+
+input[type="reset"] {
+    @include button;
+}
+
+input[type="submit"] {
+    @include button;
+    background-color: var(--primary);
+    color: var(--on-primary);
+    border-radius: 4px;
+    border: 1px solid var(--primary);
+
+    &:not(:disabled) {
+        &:hover {
+            background-color: var(--elevation-primary);
+            border: 1px solid transparent;
+        }
+    }
+}
+
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+
+    background-color: var(--surface);
+    // border: 1px solid var(--sunken-border);
+    border-radius: 1.75px;
+    margin-bottom: -2px;
+    margin-top: 18px;
+    margin-left: 6px;
+    height: 15px;
+    width: 15px;
+    display: inline-block;
+    position: relative;
+
+    @include focus-highlight(true);
+
+    &::before {
+        content: "check_box_outline_blank";
+        color: var(--sunken-border);
+        font-family: "Material Icons";
+        position: absolute;
+        font-size: 150%;
+        margin-top: -2.5px;
+        margin-left: -2.5px;
+    }
+
+    &::after {
+        content: "";
+        font-family: "Material Icons";
+        position: absolute;
+        font-size: 150%;
+        margin-top: -2.5px;
+        margin-left: -2.5px;
+    }
+
+    &:not(:disabled):hover::after {
+        content: "check_box";
+        color: var(--to-primary);
+    }
+
+    &:checked {
+        // background-color: var(--primary);
+        // border: 1px solid var(--primary);
+
+        &:not(:disabled):hover {
+            &::after {
+                color: var(--to-surface);
+            }
+        }
+
+        &::after {
+            content: "check_box";
+            border-radius: 3px;
+            color: var(--primary);
+            // background-color: var(--primary);
+            &:disabled {
+                opacity: 0.3;
+            }
+        }
+    }
+}
+
+input[type="color"] {
+    @include button();
+    margin-top: 16px;
+}
+
+input[type="date"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="month"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="text"],
+input[type="time"],
+input[type="url"],
+input[type="week"],
+select,
+textarea {
+    width: calc(100% - 12px);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    padding: 6px 6px;
+    padding-top: 18px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background-color: var(--input-overlay);
+    color: var(--on-surface);
+    border: none;
+    border-bottom: 3px solid var(--sunken-border);
+    -webkit-transition: border-color 0.25s ease-out;
+    transition: border-color 0.25s ease-out;
+
+    &:focus {
+        outline: none;
+        border-bottom: 3px solid var(--primary);
+    }
+}
+
+select,
+input[type="search"] {
+    width: 100%;
+}
+
+textarea {
+    border-top: 18px solid transparent;
+    padding-top: 0;
+    border-bottom: 3px solid var(--sunken-border);
+    resize: none;
+    height: 5em;
+}
+
+input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+
+    background-color: var(--surface);
+    border: 1px solid var(--sunken-border);
+    border-radius: 7.5px;
+    margin-bottom: -2px;
+    margin-top: 18px;
+    margin-left: 6px;
+    height: 15px;
+    width: 15px;
+    display: inline-block;
+    position: relative;
+    &::before {
+        content: "radio_button_unchecked";
+        color: var(--sunken-border);
+        font-family: "Material Icons";
+        position: absolute;
+        font-size: 135%;
+        margin-top: -2.5px;
+        margin-left: -2.5px;
+    }
+    &::after {
+        content: "";
+        font-family: "Material Icons";
+        position: absolute;
+        font-size: 135%;
+        margin-top: -2.5px;
+        margin-left: -2.5px;
+    }
+
+    @include focus-highlight(true);
+
+    &:not(:disabled):hover::after {
+        content: "radio_button_checked";
+        color: var(--to-primary);
+    }
+
+    &:checked::after {
+        content: "radio_button_checked";
+        border-radius: 3px;
+        color: var(--primary);
+        &:disabled {
+            opacity: 0.3;
+        }
+    }
+}
+
+@mixin thumb() {
+    -webkit-appearance: none;
+    border: 1px solid var(--sunken-border);
+    background-color: var(--elevation-2);
+    height: 16px;
+    width: 16px;
+    border-radius: 4px;
+    margin-top: -4px;
+    cursor: pointer;
+
+    &:not(:disabled) {
+        @include shadow(6);
+        &:active,
+        &:hover,
+        &:focus {
+            @include shadow(8);
+            outline: none;
+            border: 1px solid var(--primary);
+            background-color: var(--elevation-2);
+        }
+    }
+}
+
+@mixin track-lower() {
+    height: 10px;
+    cursor: pointer;
+    background: var(--primary);
+    border-radius: 4px;
+    border: 1px solid transparent;
+
+    &:not(:disabled) {
+        &:active,
+        &:hover {
+            background: var(--elevation-primary);
+        }
+    }
+}
+
+@mixin track-upper() {
+    height: 10px;
+    cursor: pointer;
+    background: var(--surface);
+    border: 1px solid var(--sunken-border);
+    border-radius: 4px;
+
+    &:not(:disabled) {
+        &:active,
+        &:hover,
+        &:focus {
+            outline: none;
+            border: 1px solid var(--primary);
+            background-color: var(--elevation-1);
+        }
+    }
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    background: transparent;
+    margin-top: 20px;
+    border-radius: 5px;
+
+    @include focus-highlight(true);
+
+    &::-webkit-slider-thumb {
+        @include thumb;
+    }
+
+    &::-moz-range-thumb {
+        @include thumb;
+    }
+
+    &::-ms-thumb {
+        @include thumb;
+    }
+
+    &::-webkit-slider-runnable-track {
+        @include track-upper;
+    }
+
+    &::-moz-range-track {
+        @include track-upper;
+    }
+
+    &::-ms-track {
+        @include track-lower;
+    }
+
+    &::-ms-fill-lower {
+        @include track-lower;
+    }
+
+    &::-ms-fill-upper {
+        @include track-upper;
+    }
+}
+
+select option {
+    background-color: var(--surface);
+    color: var(--on-surface);
+}
+
+meter {
+    -webkit-appearance: meter;
+    box-sizing: border-box;
+    display: inline-block;
+    height: 1em;
+    width: 5em;
+    vertical-align: -0.2em;
+}
