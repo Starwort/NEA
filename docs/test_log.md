@@ -6,7 +6,7 @@ This will log the tests, their output, and whether the test was successful
 
 [Commit of test (used to view the test at the time)](https://github.com/Starwort/NEA/commit/ee750d115fd0a794eb092f42938e4e3377302c9c)
 
-```output
+```
 starwort@hedwig ~/Documents/NEA master$ dist/test 668790.7V6D87.T87D9K.V0T980.DV6KTK.0DVKT9. TKDV09.876TKD.V09876.TKDV09.876TKD.V09876. TKDV09876.TKDV09876.TKDV09876.TKDV09876... 'TKDV09878!TKDV09878.TKDV09766!TKDV09766...'
 668790.7V6D87.T87D9K.V0T980.DV6KTK.0DVKT9.:
  06  07  14  11  12  10 
@@ -78,7 +78,7 @@ Post-mortem: Bit field limited to 3 bits due to false assumption that valid inpu
 
 [Commit of test (used to view the test at the time)](https://github.com/Starwort/NEA/commit/a23ce7b2f4f4f0bfc521bbfe2dc150b6c92d8b72)
 
-```output
+```
 starwort@hedwig ~/Documents/NEA master$ dist/test TKDV09876.TKDV09876.TKDV09876.TKDV09876...
 After 10,000,000 iterations:
 Elapsed: 0s 338,716µs
@@ -96,7 +96,7 @@ Test result: Successful; 10,000,000 calls of the function (in the worst case) ca
 
 [Commit of test (used to view the test at the time)](https://github.com/Starwort/NEA/commit/8a86fec1f35856f467f279d8ca910350584e66fd)
 
-```output
+```
 starwort@hedwig ~/Documents/NEA master$ dist/test 668790.7V6D87.T87D9K.V0T980.DV6KTK.0DVKT9. TKDV09.876TKD.V09876.TKDV09.876TKD.V09876. TKDV09876.TKDV09876.TKDV09876.TKDV09876... 'TKDV09878!TKDV09878.TKDV09766!TKDV09766...'
 Original:      668790.7V6D87.T87D9K.V0T980.DV6KTK.0DVKT9.
 Compressed:    668790.7V6D87.T87D9K.V0T980.DV6KTK.0DVKT9.
@@ -124,7 +124,7 @@ Test result: Successful; Compression is the inverse of parsing, and comparison o
 
 Output: [![asciicast](https://asciinema.org/a/2JbOBIMBh1DxGX0zAnPkRYNl3.svg)](https://asciinema.org/a/2JbOBIMBh1DxGX0zAnPkRYNl3)
 
-```output
+```
 starwort@hedwig ~/Documents/NEA master$ bash -c '(read a; while read b; do dist/test \"$a\" \"$b\"; done) < samples/permutations.txt' | grep -B 2 false
 ```
 
@@ -136,7 +136,7 @@ Test result: Successful; All permutations of the board state are accepted as equ
 
 [Commit of test (used to view the test at the time)](https://github.com/Starwort/NEA/commit/4b3894199036135bc13e0ffa85358459d9ae34c8)
 
-```output
+```
 starwort@hedwig ~/Documents/NEA master$ bash -c '(while read b; do dist/test \"$b\"; done) < samples/permutations.txt' | python -c "import sys; print(set(sys.stdin.read().splitlines()))"
 {'57555068'}
 ```
@@ -147,7 +147,7 @@ Test result: Successful; All permutations of the board state are accepted as equ
 
 [Commit of test (used to view the test at the time)](https://github.com/Starwort/NEA/commit/4b3894199036135bc13e0ffa85358459d9ae34c8)
 
-```output
+```
 starwort@hedwig ~/Documents/NEA master$ xargs -a samples/toy.txt dist/test | python -c "import sys; print(_:=set(sys.stdin.read().splitlines()), len(_))"; cat samples/toy.txt | wc -l
 {'228303792', '571845447', '1756605383', '1030069549', '328575377', '1811331921', '1590868318', '22301669', '1238129521', '1958393456', '56924340', '1245889', '919853135', '1563027505', '1507860214', '756225619'} 16
 15
@@ -159,7 +159,7 @@ Test result: Successful; 16 different hashes are generated; one per board state 
 
 [Commit of test (used to view the test at the time)](https://github.com/Starwort/NEA/commit/4b3894199036135bc13e0ffa85358459d9ae34c8)
 
-```output
+```
 starwort@hedwig ~/Documents/NEA master$ dist/test 668790.7V6D87.T87D9K.V0T980.DV6KTK.0DVKT9.; dist/test "668790.7V6D87.T87D9K.V0T980.DV6KTK.0DVKT9!"
 228303792
 748997643
@@ -192,7 +192,7 @@ Test result: Successful; the board states differ only by the cheat state of colu
     - If the optimal solution differs from the initial solution, then say so and exit
 - Output of the test:
 
-  - ```output
+  - ```
     Found a more optimal solution for board VTK0KV.89K97V.697070.6TT880.D9T6K6.D7V8DD.
     ```
 
