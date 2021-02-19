@@ -29,11 +29,13 @@ Board* parse_input(const string given_state) {
     Board* board = allocate_board();
     int card = 0;
     int num_cards_found = 0;
+    int cards_found[15] = {0};
     for (int i = 0; i < 6; i++) {
         Column* this_column = board->cols[i];
         uint8 current_card;
         uint8 y = 0;
         while ((current_card = given_state[card++]) != '.' && current_card != '!') {
+            uint8 card_char = current_card;
             switch (current_card) {
                 case 'T':
                     current_card = 14;
@@ -63,6 +65,23 @@ Board* parse_input(const string given_state) {
                         current_card);
                     free_board(board);
                     exit(EXIT_FAILURE);
+            }
+            cards_found[current_card]++;
+            if (cards_found[current_card] > 4) {
+                eprintfln(
+                    "Bad input string: Impossible state; Found %d %c (expected 4)",
+                    cards_found[current_card],
+                    card_char);
+                free_board(board);
+                exit(EXIT_FAILURE);
+            }
+            if (y > 14) {
+                eprintfln(
+                    "Bad input string: Impossible state; Found %d cards in column (max "
+                    "15)",
+                    y);
+                free_board(board);
+                exit(EXIT_FAILURE);
             }
             this_column->cards[y++] = current_card;
             num_cards_found++;

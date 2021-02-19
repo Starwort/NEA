@@ -198,6 +198,9 @@ The problem has been broken down as shown below:
    1. Board state and parameter parsing
       1. Board state parsing is handled by my code
          - I decided to encode the board state in a simple-to-parse way in order to ease the writing of the solver
+         - Each board is given to the solver as a 42-character string, consisting of 6 columns, each of which consists of up to 15 cards followed by a column terminator.
+         - Each card is represented by a digit 6-9, the digit `0`, or a letter `T`, `K`, `D`, or `V`
+         - Column terminators are the characters `.` and `!`, representing a column without a Cheat and a column with a Cheat, respectively
       2. Argument parsing is handled by `getopt`
          - This is a standard C module which is used to handle options
    2. Backtracking solution search
@@ -259,6 +262,7 @@ The following data structures (which can be found within `types.h`) were needed 
   - An unsigned 8-bit integer, which stores the position of the beginning of the stack of `Card`s which may be moved together within this `Column`
   - A boolean containing whether or not this `Column` contains a Cheated `Card`
 - `Board`, which is a structure representing the entire board, containing 6 `Column` pointers
+  - This is the core structure for the project, and there is only ever one, which is global to the main file. It is loaded by parsing a string provided by the user, which takes a specific format (described in more detail in the previous breakdown) and is checked thoroughly in order to avoid segmentation faults.
 - `Move`, which is a structure representing a single move, containing:
   - An unsigned 8-bit integer representing the column the card is moving from (as an index)
   - An unsigned 8-bit integer representing the row the card is moving from (as an index)
@@ -267,6 +271,10 @@ The following data structures (which can be found within `types.h`) were needed 
   - A boolean containing whether or not the move being made is a Cheat
   - A boolean containing whether or not the `Card` being moved was Cheated previously
 - `BoardHashTable_LLNode`, which is a linked-list node for use in the hash table (an optimisation enabling the solver to prematurely discard states, based on whether it has encoutered them before or not)
+
+## Analysis of the Graphical User Interface
+
+In order to ease development of the Graphical User Interface (GUI), the library `pygubu` was used. This allows me to create the components via the editor `pygubu-designer`, as well as connecting the events and bindings, and then write the code to *implement* the callbacks more quickly. Using `pygubu` allows the graphics code to stay separate from my own code, with the limited exception that I need to understand that `tkinter` is being used internally, and as such avoid blocking its thread with my operations
 # Planned steps
 
 ## Release 1 - create solver
