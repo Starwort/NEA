@@ -47,6 +47,7 @@ class SolverApp:
         self.mainwindow: "ttk.Frame" = builder.get_object("frame_1")
         builder.connect_callbacks(self)
 
+        self.mainwindow.winfo_toplevel().title("MOLEK-SYNTEZ Solitaire Solver")
         self.status: "ttk.Label" = builder.get_object("status")
         self.allow_cheat: tk.BooleanVar = builder.get_variable("cheat")
         self.continue_milliseconds: tk.IntVar = builder.get_variable("continue_millis")
@@ -55,7 +56,7 @@ class SolverApp:
         self.minimum_moves: tk.IntVar = builder.get_variable("min_depth")
         self.solver_timeout: tk.DoubleVar = builder.get_variable("timeout")
         self.games: tk.IntVar = builder.get_variable("games")
-        self.go: "ttk.Button" = builder.get_variable("go")
+        self.go: "ttk.Button" = builder.get_object("go")
         self.running = False
         self.set_status("")
 
