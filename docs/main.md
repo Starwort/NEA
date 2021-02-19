@@ -54,9 +54,9 @@ The solution will be fully automatic, and will be customisable ([don't] allow th
 - [x] The solver must support configuration:
   - [x] Maximum search depth (number of moves)
   - [x] Allow/disallow Cheating
-- [X] The solver should have a vision interface
-  - [X] Read the board from the game with CV
-- [X] The vision-solver must have a graphical configuration interface
+- [x] The solver should have a vision interface
+  - [x] Read the board from the game with CV
+- [x] The vision-solver must have a graphical configuration interface
   - [ ] The configuration interface should contain a 'live' display of the vision
 
 <!-- TODO: maybe more -->
