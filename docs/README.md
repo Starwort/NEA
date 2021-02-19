@@ -76,8 +76,6 @@ I previously (several months ago) began collecting some sample screen captures, 
 
 I have also created a makefile, and copied my formatter configuration here, to make the build process easier.
 
-Full information about the progress I make will be available in [the changelog](./CHANGELOG.md)
-
 ## Roadmap
 
 1. Write standalone player
