@@ -203,24 +203,26 @@ Test result: Successful; the board states differ only by the cheat state of colu
 
 [Commit of test (used to view the test at the time)](https://github.com/Starwort/NEA/commit/72d426b83270a9aaa66a40963c8af0695ae8ae2a/)
 
-```diff
-+starwort@hedwig ~/Documents/NEA master$ dist/test "NotEnoughCharacters"
-+Unexpected end of string; Expected 42 characters but only got 19
-+starwort@hedwig ~/Documents/NEA master$ _.rtn
-+1
-+starwort@hedwig ~/Documents/NEA master$ dist/test "MoreCharsThanNecessarySoTheUnnecessaryCharsGetIgnored!"
-+Bad input string: Expected 6 columns, got 0
-+starwort@hedwig ~/Documents/NEA master$ dist/test "Enough Characters But No Column Separators"
-+Bad input string: Expected 6 columns, got 0
-+starwort@hedwig ~/Documents/NEA master$ _.rtn
-+1
-+starwort@hedwig ~/Documents/NEA master$ dist/test "Enough.CharsAndSeps.But.All.Character.Bad!"
-+Expected a digit in the range 6-9, '0', 'T', 'K', 'D', V, '!', or '.'; got 'E'
-+starwort@hedwig ~/Documents/NEA master$ _.rtn
-+1
--starwort@hedwig ~/Documents/NEA master$ dist/test "VTK0KV.89K97V.697070.6TT880.D9T6K6.D7V8D.D" # Column sep in wrong place (extra card in a bad 7th col, card missing from 6th col)
--starwort@hedwig ~/Documents/NEA master$ _.rtn
--0
+```
+starwort@hedwig ~/Documents/NEA master$ dist/test "NotEnoughCharacters"
+Unexpected end of string; Expected 42 characters but only got 19
+starwort@hedwig ~/Documents/NEA master$ _.rtn
+1
+starwort@hedwig ~/Documents/NEA master$ dist/test "MoreCharsThanNecessarySoTheUnnecessaryCharsGetIgnored!"
+Bad input string: Expected 6 columns, got 0
+starwort@hedwig ~/Documents/NEA master$ _.rtn
+1
+starwort@hedwig ~/Documents/NEA master$ dist/test "Enough Characters But No Column Separators"
+Bad input string: Expected 6 columns, got 0
+starwort@hedwig ~/Documents/NEA master$ _.rtn
+1
+starwort@hedwig ~/Documents/NEA master$ dist/test "Enough.CharsAndSeps.But.All.Character.Bad!"
+Expected a digit in the range 6-9, '0', 'T', 'K', 'D', V, '!', or '.'; got 'E'
+starwort@hedwig ~/Documents/NEA master$ _.rtn
+1
+starwort@hedwig ~/Documents/NEA master$ dist/test "VTK0KV.89K97V.697070.6TT880.D9T6K6.D7V8D.D" # Column sep in wrong place (extra card in a bad 7th col, card missing from 6th col)
+starwort@hedwig ~/Documents/NEA master$ _.rtn
+0
 ```
 
 Test result: Mostly successful; 3 success, 1 fail: All malformed inputs, except those that are formatted validly but with an invalid layout of cards, get rejected (note that inputs with extra characters are effectively truncated at the 42nd character [note the number of columns being 0 in the second example], this is intended behaviour)
@@ -229,9 +231,9 @@ Test action: Validate the number of cards parsed after parsing the board state; 
 
 Post-resolution: Test case now passes
 
-```diff
-+starwort@hedwig ~/Documents/NEA master$ dist/test "VTK0KV.89K97V.697070.6TT880.D9T6K6.D7V8D.D"
-+Bad input string: Expected 36 cards, got 35
-+starwort@hedwig ~/Documents/NEA master$ _.rtn
-+1
+```
+starwort@hedwig ~/Documents/NEA master$ dist/test "VTK0KV.89K97V.697070.6TT880.D9T6K6.D7V8D.D"
+Bad input string: Expected 36 cards, got 35
+starwort@hedwig ~/Documents/NEA master$ _.rtn
+1
 ```
