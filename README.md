@@ -54,10 +54,10 @@ The solution will be fully automatic, and will be customisable ([don't] allow th
 - [x] The solver must support configuration:
   - [x] Maximum search depth (number of moves)
   - [x] Allow/disallow Cheating
-- [ ] The solver should have a vision interface
-  - [ ] Read the board from the game with CV
-- [ ] The vision-solver must have a graphical configuration interface
-  - [ ] The configuration interface must contain a 'live' display of the vision
+- [x] The solver should have a vision interface
+  - [x] Read the board from the game with CV
+- [x] The vision-solver must have a graphical configuration interface
+  - [ ] The configuration interface should contain a 'live' display of the vision
 
 <!-- TODO: maybe more -->
 
@@ -75,8 +75,6 @@ A user by the name Hegemege has also [created a solver for the solitaire](https:
 I previously (several months ago) began collecting some sample screen captures, and wrote a small framework ([solver/](./solver)). Additionally, the [common.c](solver_c/common.c), [common.h](solver_c/common.h), and [variadicmacros.h](solver_c/variadicmacros.h) are part of my personal C workspace and are copied here for completeness.
 
 I have also created a makefile, and copied my formatter configuration here, to make the build process easier.
-
-Full information about the progress I make will be available in [the changelog](./CHANGELOG.md)
 
 ## Roadmap
 
@@ -98,7 +96,34 @@ Full information about the progress I make will be available in [the changelog](
 
 ## Design
 
-<!-- TODO: build mockup image and analyse -->
+## GUI
+
+[![Labelled image of the GUI](./window_labelled.png)](./window_labelled.png)
+
+The GUI has been illustrated, with coloured regions used to identify them. Below is a description of what each region contains.
+
+- Green region
+  - Options for the solver
+  - Each option in this group corresponds to a single solver option
+    - Cheating checkbox: `-c`
+    - Continue spinbox: `-t`
+    - Cache spinbox: `-n`
+    - Max moves spinbox: `-m`
+    - Min depth spinbox: `-d`
+  - This is so that users already familiar with the command-line interface can use the GUI easily, and so that users learning with the GUI are able to switch to the CLI if they so desire
+- Blue region
+  - The timeout for the subprocess
+  - To the user, this appears to fit into the solver parameters, and therefore it is grouped with them; however, it really controls the timeout of the subprocess call, which is used to interface with the solver.
+- Magenta region
+  - The number of games to solve, automatically
+  - This is a parameter entirely separate from the solver options, and as such it is separated from them by a divider
+- Yellow region
+  - The 'Go' button
+  - When pressed, it begins a thread which runs the solver wrapper (which has been rewritten to use the status bar instead of stdout), and transforms into a 'Stop' button
+- Red region
+  - The status bar
+  - Displays the tooltips for the labels, as well as the last line of output from the solver thread. When not hovering over a label, will display the hint text 'Hover over a label for more information'
+
 ### Solver algorithm overview
 
 ```pseudocode
