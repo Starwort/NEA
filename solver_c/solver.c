@@ -327,10 +327,7 @@ int main(int argc, string argv[]) {
         exit(EXIT_FAILURE);
     }
     Board* board = parse_input(argv[optind]);
-    if (board == NULL) {
-        // error has already been printed
-        exit(EXIT_FAILURE);
-    }
+    // invalid boards will cause an exit in parse_input
 
     int start_max_depth = min(min_max_depth, max_depth);
     moves = calloc(max_depth, sizeof(Move*));

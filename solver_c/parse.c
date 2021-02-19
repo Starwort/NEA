@@ -10,19 +10,22 @@
  * represents 10
  *
  * The board needs freeing after use.
- *
- * TODO: avoid segfault for bad input
  */
 Board* parse_input(const string given_state) {
     int num_cols_found = 0;
     for (int i = 0; i < 42; i++) {
+        if (given_state[i] == '\0') {
+            eprintfln(
+                "Unexpected end of string; Expected 42 characters but only got %d", i);
+            exit(EXIT_FAILURE);
+        }
         if (given_state[i] == '.' || given_state[i] == '!') {
             num_cols_found++;
         }
     }
     if (num_cols_found != 6) {
         eprintfln("Bad input string: Expected 6 columns, got %d", num_cols_found);
-        return NULL;
+        exit(EXIT_FAILURE);
     }
     Board* board = allocate_board();
     int card = 0;
@@ -47,8 +50,18 @@ Board* parse_input(const string given_state) {
                 case '0':
                     current_card = 10;
                     break;
-                default:
+                case '9':
+                case '8':
+                case '7':
+                case '6':
                     current_card -= '0';
+                    break;
+                default:
+                    eprintfln(
+                        "Expected a digit in the range 6-9, '0', 'T', 'K', 'D', V, "
+                        "'!', or '.'; got '%c'",
+                        current_card);
+                    exit(EXIT_FAILURE);
             }
             this_column->cards[y++] = current_card;
         }
