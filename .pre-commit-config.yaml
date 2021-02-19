@@ -3,9 +3,15 @@
 repos:
 -   repo: local
     hooks:
-    -   id: autodoc
-        name: document
-        entry: bash -c 'pandoc README.md TIMELINE.md test_log.md debugging_session.md -o all.docx; git add -u'
+    -   id: compile_all_docx
+        name: Compile DocX
+        entry: bash -c 'pandoc README.md DESIGN.md TIMELINE.md test_log.md debugging_session.md -o all.docx; git add -u'
+        language: system
+        verbose: false
+        always_run: true
+    -   id: compile_all_pages
+        name: Compile GitHub Pages
+        entry: bash -c 'cat docs/main.md docs/DESIGN.md docs/TIMELINE.md docs/test_log.md docs/debugging_session.md > docs/all.md; git add -u'
         language: system
         verbose: false
         always_run: true
