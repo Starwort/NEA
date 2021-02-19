@@ -173,7 +173,7 @@ Test result: Successful; the board states differ only by the cheat state of colu
 
 - Test:
 
-  - ```xonsh
+  - ```python
     for line in $(cat samples/toy.txt).splitlines():
         first = $(dist/solver @(line) -t 0)
         best = $(dist/solver @(line) -t 10000)
