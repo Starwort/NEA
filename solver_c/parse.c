@@ -15,8 +15,7 @@ Board* parse_input(const string given_state) {
     int num_cols_found = 0;
     for (int i = 0; i < 42; i++) {
         if (given_state[i] == '\0') {
-            eprintfln(
-                "Unexpected end of string; Expected 42 characters but only got %d", i);
+            eprintfln("Bad input string: Expected 42 characters but only got %d", i);
             exit(EXIT_FAILURE);
         }
         if (given_state[i] == '.' || given_state[i] == '!') {
@@ -29,6 +28,7 @@ Board* parse_input(const string given_state) {
     }
     Board* board = allocate_board();
     int card = 0;
+    int num_cards_found = 0;
     for (int i = 0; i < 6; i++) {
         Column* this_column = board->cols[i];
         uint8 current_card;
@@ -58,16 +58,23 @@ Board* parse_input(const string given_state) {
                     break;
                 default:
                     eprintfln(
-                        "Expected a digit in the range 6-9, '0', 'T', 'K', 'D', V, "
-                        "'!', or '.'; got '%c'",
+                        "Bad input string: Expected a digit in the range 6-9, '0', "
+                        "'T', 'K', 'D', V, '!', or '.'; got '%c'",
                         current_card);
+                    free_board(board);
                     exit(EXIT_FAILURE);
             }
             this_column->cards[y++] = current_card;
+            num_cards_found++;
         }
         this_column->count = y;
         this_column->cheated = current_card == '!';
         this_column->stack_begin = stack_begin(this_column);
+    }
+    if (num_cards_found != 36) {
+        eprintfln("Bad input string: Expected 36 cards, got %d", num_cards_found);
+        free_board(board);
+        exit(EXIT_FAILURE);
     }
     return board;
 }

@@ -226,3 +226,12 @@ Test result: Successful; the board states differ only by the cheat state of colu
 Test result: Mostly successful; 3 success, 1 fail: All malformed inputs, except those that are formatted validly but with an invalid layout of cards, get rejected (note that inputs with extra characters are effectively truncated at the 42nd character [note the number of columns being 0 in the second example], this is intended behaviour)
 
 Test action: Validate the number of cards parsed after parsing the board state; there must be exactly 36 cards within the board layout
+
+Post-resolution: Test case now passes
+
+```diff
++starwort@hedwig ~/Documents/NEA master$ dist/test "VTK0KV.89K97V.697070.6TT880.D9T6K6.D7V8D.D"
++Bad input string: Expected 36 cards, got 35
++starwort@hedwig ~/Documents/NEA master$ _.rtn
++1
+```
