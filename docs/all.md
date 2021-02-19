@@ -275,6 +275,7 @@ The following data structures (which can be found within `types.h`) were needed 
 ## Analysis of the Graphical User Interface
 
 In order to ease development of the Graphical User Interface (GUI), the library `pygubu` was used. This allows me to create the components via the editor `pygubu-designer`, as well as connecting the events and bindings, and then write the code to *implement* the callbacks more quickly. Using `pygubu` allows the graphics code to stay separate from my own code, with the limited exception that I need to understand that `tkinter` is being used internally, and as such avoid blocking its thread with my operations
+# Evidence of Project Development
 # Planned steps
 
 ## Release 1 - create solver
