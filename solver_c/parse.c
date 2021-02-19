@@ -4,7 +4,7 @@
  * object and populate its values.
  *
  * Board data is expected to be in the format
- * /([TKDV06-9]{0,14}(\.|!)){6}/ (given as a regex)
+ * /([TKDV06-9]{0,15}(\.|!)){6}/ (given as a regex)
  *
  * T, K, D, V, 9, 8, 7, and 6 represent themselves, and 0
  * represents 10
@@ -14,6 +14,16 @@
  * TODO: avoid segfault for bad input
  */
 Board* parse_input(const string given_state) {
+    int num_cols_found = 0;
+    for (int i = 0; i < 42; i++) {
+        if (given_state[i] == '.' || given_state[i] == '!') {
+            num_cols_found++;
+        }
+    }
+    if (num_cols_found != 6) {
+        eprintfln("Bad input string: Expected 6 columns, got %d", num_cols_found);
+        return NULL;
+    }
     Board* board = allocate_board();
     int card = 0;
     for (int i = 0; i < 6; i++) {
