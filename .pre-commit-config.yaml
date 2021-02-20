@@ -5,13 +5,13 @@ repos:
     hooks:
     -   id: compile_all_docx
         name: Compile DocX
-        entry: bash -c 'pandoc docs/main.md docs/DESIGN.md docs/EVIDENCE.md docs/TIMELINE.md docs/test_log.md docs/debugging_sessions.md -o all.docx; git add -u'
+        entry: bash -c 'pandoc docs/main.md docs/DESIGN.md docs/EVIDENCE.md docs/iterations.md docs/TIMELINE.md docs/test_log.md docs/debugging_sessions.md -o all.docx; git add -u'
         language: system
         verbose: false
         always_run: true
     -   id: compile_all_pages
         name: Compile GitHub Pages
-        entry: bash -c 'cat docs/main.md docs/DESIGN.md docs/EVIDENCE.md docs/TIMELINE.md docs/test_log.md docs/debugging_sessions.md > docs/all.md; git add -u'
+        entry: bash -c 'cat docs/main.md docs/DESIGN.md docs/EVIDENCE.md docs/iterations.md docs/TIMELINE.md docs/test_log.md docs/debugging_sessions.md > docs/all.md; git add -u'
         language: system
         verbose: false
         always_run: true
