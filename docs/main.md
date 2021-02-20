@@ -126,7 +126,7 @@ The GUI has been illustrated, with coloured regions used to identify them. Below
 
 ### Solver algorithm overview
 
-```pseudocode
+```
 to solve a given board:
     see if the board is solved
         if it is, return no moves
