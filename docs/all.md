@@ -3981,26 +3981,6 @@ In order to ease development of the Graphical User Interface (GUI), the library 
 
     ```
     </details>
-# Planned steps
-
-## Release 1 - create solver
-
-- Create the solver
-
-## Release 2 - create standalone, integrate solver
-
-- Create a secondary, standalone implementation of the solitaire that a user can play with
-- Use solver as a 'hint' function for the standalone implementation
-
-## Release 3 - create interface for original
-
-- Complete the vision
-- Create the output (for the original version)
-- Commandline interface
-
-## Release 4 - final polishing
-
-- Add graphical interface and vision overlay
 # Test log
 
 This will log the tests, their output, and whether the test was successful
@@ -4248,7 +4228,7 @@ starwort@hedwig ~/Documents/NEA master$ _.rtn
   - `-O3 -g -lefence`
 - Relevant GDB session log:
 
-  - ```gdb
+  - ```
     (gdb) print compressed
     $11 = (string) 0x55555d55ce60 "8TK7DK9\207\067\061DV6T\200\310\060Q000000003561", '0' <repeats 19 times>, "q000000Q0000000879DV6T000000000....000000000\220\364!V076VD6."
     (gdb) print board
@@ -4270,7 +4250,7 @@ starwort@hedwig ~/Documents/NEA master$ _.rtn
   - `DEBUG=True`
 - Relevant GDB session log:
 
-  - ```gdb
+  - ```
     (gdb) set args -c 997VT8.076VD6.879DV6.T00KD8.09T6K8.VTK7DK.
     (gdb) break solver.c:137
     Breakpoint 1 at 0x13c3: file solver_c/solver.c, line 138.
@@ -4313,7 +4293,7 @@ starwort@hedwig ~/Documents/NEA master$ _.rtn
   - `DEBUG=True`
 - Relevant GDB session log:
 
-  - ```gdb
+  - ```
     (gdb) print *board
     $1 = {cols = {0x55555d55c2e0, 0x55555d55c300, 0x55555d55c320, 
         0x55555d55c340, 0x55555d55c360, 0x55555d55c380}, depth = 0}

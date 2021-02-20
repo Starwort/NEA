@@ -6,7 +6,7 @@
   - `-O3 -g -lefence`
 - Relevant GDB session log:
 
-  - ```gdb
+  - ```
     (gdb) print compressed
     $11 = (string) 0x55555d55ce60 "8TK7DK9\207\067\061DV6T\200\310\060Q000000003561", '0' <repeats 19 times>, "q000000Q0000000879DV6T000000000....000000000\220\364!V076VD6."
     (gdb) print board
@@ -28,7 +28,7 @@
   - `DEBUG=True`
 - Relevant GDB session log:
 
-  - ```gdb
+  - ```
     (gdb) set args -c 997VT8.076VD6.879DV6.T00KD8.09T6K8.VTK7DK.
     (gdb) break solver.c:137
     Breakpoint 1 at 0x13c3: file solver_c/solver.c, line 138.
@@ -71,7 +71,7 @@
   - `DEBUG=True`
 - Relevant GDB session log:
 
-  - ```gdb
+  - ```
     (gdb) print *board
     $1 = {cols = {0x55555d55c2e0, 0x55555d55c300, 0x55555d55c320, 
         0x55555d55c340, 0x55555d55c360, 0x55555d55c380}, depth = 0}
