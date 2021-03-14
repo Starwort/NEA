@@ -5,10 +5,10 @@
 Testing has been carried out with one of the stakeholders using Windows; a recording has been made of this testing (see below).
 
 <video controls>
-<source src="./stakeholder_test.mkv" type="video/mkv" />
+<source src="http://starbright.dyndns.org/starwort/nea/stakeholder_test.mkv" type="video/mkv" />
 
 Sorry, your browser doesn't support embedded videos. View it here:
-[Recording of testing](./stakeholder_test.mkv)
+[Recording of testing](http://starbright.dyndns.org/starwort/nea/stakeholder_test.mkv)
 
 </video>
 <br />
