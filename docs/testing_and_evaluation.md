@@ -6,9 +6,16 @@ Testing has been carried out with one of the stakeholders using Windows; a recor
 
 <video controls>
 <source src="http://starbright.dyndns.org/starwort/nea/stakeholder_test.mkv" type="video/mkv" />
+<source src="http://starbright.dyndns.org/starwort/nea/stakeholder_test.mp4" type="video/mp4" />
+<source src="http://starbright.dyndns.org/starwort/nea/stakeholder_test.webm" type="video/webm" />
+<source src="http://starbright.dyndns.org/starwort/nea/stakeholder_test.ogv" type="video/ogg" />
 
-Sorry, your browser doesn't support embedded videos. View it here:
-[Recording of testing](http://starbright.dyndns.org/starwort/nea/stakeholder_test.mkv)
+Sorry, your browser doesn't support embedded videos. View it:
+
+- [Recording of testing (MKV)](http://starbright.dyndns.org/starwort/nea/stakeholder_test.mkv)
+- [Recording of testing (MP4)](http://starbright.dyndns.org/starwort/nea/stakeholder_test.mp4)
+- [Recording of testing (WEBM)](http://starbright.dyndns.org/starwort/nea/stakeholder_test.webm)
+- [Recording of testing (OGV)](http://starbright.dyndns.org/starwort/nea/stakeholder_test.ogv)
 
 </video>
 <br />
