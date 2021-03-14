@@ -34,7 +34,7 @@ Stakeholders have given feedback, listed below:
     - Corner flinging to stop solution execution does not update button text accordingly.
     - Completion of desired number of games does not update button text.
 
-  This feedback is useful because it highlights that the stakeholder has ideas for additional features that had not previously been thought of, and that the stakeholder may have preferred an alternate usage where the program provides a hint towards the current puzzle, instead of simply solving it
+  This feedback is useful because it highlights that the stakeholder has ideas for additional features that had not previously been thought of, and that the stakeholder may have preferred an alternate usage where the program provides a hint towards the current puzzle, instead of simply solving it.
 
 ## Effective Evaluation
 
